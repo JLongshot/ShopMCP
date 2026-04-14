@@ -42,13 +42,16 @@ export default function Home() {
             fontSize: 18,
           }}
         >
-          A store where the only way to shop is through your AI agent.
+          A small, curated online shop. A mix of physical items, digital pieces, and personal creative services — each one real, each one fulfilled by a human.
         </p>
       </header>
 
+      <p style={{ marginTop: 40, fontSize: 13, fontWeight: 500, color: "var(--muted)" }}>
+        Prefer to shop with an AI agent?
+      </p>
       <section
         style={{
-          marginTop: 24,
+          marginTop: 8,
           background: "var(--code-bg)",
           color: "var(--code-fg)",
           borderRadius: "var(--radius)",
@@ -117,7 +120,11 @@ export default function Home() {
         </ol>
       </section>
 
-      <section style={{ marginTop: 64 }}>
+      <p style={{ marginTop: 48, fontSize: 13, color: "var(--muted)" }}>
+        More items, more ways to shop — more on the way.
+      </p>
+
+      <section style={{ marginTop: 48 }}>
         <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>
           FAQ
         </h2>
@@ -142,13 +149,12 @@ export default function Home() {
           </div>
           <div>
             <p style={{ fontWeight: 500, color: "var(--fg)" }}>
-              Why can&apos;t I just buy things normally?
+              Can I buy things directly, without an AI?
             </p>
             <p>
-              That&apos;s the whole point. This is an experiment in what shopping
-              looks like when the customer is an AI. The agent reads the catalog,
-              understands the vibes, and makes recommendations a product grid
-              never could.
+              You can &mdash; each product has its own page. But we also make it
+              easy to shop via an AI agent, which can read the full catalog and
+              make personalized picks a product grid never could.
             </p>
           </div>
           <div>
