@@ -19,8 +19,10 @@ function buildLlmsTxt(): string {
           ? `\n- Pairs well with: ${p.pairs_well_with.join(", ")}`
           : "";
 
+      const githubRaw =
+        "https://raw.githubusercontent.com/JLongshot/ShopMCP/main/public";
       const imageLines = p.images
-        .map((img) => `![${p.name}](${baseUrl}${img})`)
+        .map((img) => `![${p.name}](${githubRaw}${img})`)
         .join("\n");
 
       return [

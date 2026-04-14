@@ -23,9 +23,11 @@ export async function GET(
       ? `\n- Pairs well with: ${product.pairs_well_with.join(", ")}`
       : "";
 
+  const githubRaw =
+    "https://raw.githubusercontent.com/JLongshot/ShopMCP/main/public";
   const images = product.images
-    .map((img) => `${baseUrl}${img}`)
-    .join(", ");
+    .map((img) => `![${product.name}](${githubRaw}${img})`)
+    .join("\n");
 
   const markdown = `# ${product.name}
 
