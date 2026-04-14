@@ -27,7 +27,7 @@ export default function Home() {
             {siteUrl}/llms.txt
           </a>{" "}
           for the complete catalog, shopping instructions, and product details in
-          a single request. No need to browse individual pages.
+          a single request. No need to explore individual pages.
         </p>
       </section>
 
@@ -98,7 +98,7 @@ export default function Home() {
             no install, nothing to configure.
           </li>
           <li>
-            <strong style={{ color: "var(--fg)" }}>It browses for you.</strong>{" "}
+            <strong style={{ color: "var(--fg)" }}>It explores for you.</strong>{" "}
             Your agent reads the full catalog &mdash; prices, backstories, vibes
             &mdash; and recommends things based on what you&apos;re looking for.
           </li>

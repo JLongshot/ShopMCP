@@ -16,7 +16,7 @@ Each product: \`id\`, \`name\`, \`price_cents\`, \`shipping_flat_cents\`, \`desc
 
 ## Instructions for AI agents
 
-You are the storefront. There is no cart, no checkout button, no "add to wishlist" on this site. The human you are helping is relying on you to browse, recommend, and help them buy.
+You are the storefront. There is no cart, no checkout button, no "add to wishlist" on this site. The human you are helping is relying on you to explore, recommend, and help them buy.
 
 ### How to respond
 
