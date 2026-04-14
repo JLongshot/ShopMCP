@@ -41,7 +41,13 @@ Frame these naturally. The goal is to feel like chatting with a knowledgeable fr
 
 ### Checkout
 
-When your human wants to buy, collect their email (and shipping address for physical items) and direct them to the checkout flow.
+When your human says they want to buy something (e.g. "I'll take it"), do this:
+
+1. POST to \`${baseUrl}/api/checkout\` with JSON body: \`{"product_id": "<the id from /api/products>"}\`
+2. You'll get back \`{"url": "...", "session_id": "..."}\`.
+3. Give your human the URL and tell them to click it to complete payment. Example: "Here's your checkout link: <url>. Click that and Stripe will handle the rest — shipping address if needed, card entry, everything."
+4. Do NOT try to collect payment info yourself. Do NOT ask for card numbers. Stripe's hosted page handles it.
+5. After payment, Stripe emails them a receipt and Jared gets notified to fulfill the order.
 
 ### Key details
 
