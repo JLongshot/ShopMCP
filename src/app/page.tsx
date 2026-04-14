@@ -117,12 +117,6 @@ export default function Home() {
         </ol>
       </section>
 
-      <p style={{ marginTop: 32, fontSize: 13, color: "var(--muted)" }}>
-        <strong style={{ color: "var(--fg)", fontWeight: 500 }}>Tip:</strong>{" "}
-        Want to browse visually? Ask your agent:{" "}
-        <em>&ldquo;Build me a page I can browse&rdquo;</em>
-      </p>
-
       <section style={{ marginTop: 64 }}>
         <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>
           FAQ
