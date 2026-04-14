@@ -1,6 +1,10 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getAllProducts, getProduct } from "@/lib/catalog";
+import { createCheckoutSession } from "@/lib/stripe";
+import { getSiteUrl } from "@/lib/url";
 import { AgentPitchToggle } from "./agent-pitch-toggle";
+
+const isTestMode = process.env.STRIPE_SECRET_KEY?.startsWith("sk_test_") ?? false;
 
 export function generateStaticParams() {
   return getAllProducts().map((p) => ({ id: p.id }));
@@ -174,23 +178,56 @@ export default async function ProductPage({
         </p>
       )}
 
-      <section
-        style={{
-          marginTop: 48,
-          padding: "20px 24px",
-          borderRadius: "var(--radius)",
-          border: "1px solid var(--border)",
-          background: "#fef2f2",
-        }}
-      >
-        <p style={{ fontSize: 14, fontWeight: 500, marginBottom: 4 }}>
-          Want to buy this?
-        </p>
-        <p style={{ fontSize: 14, color: "var(--muted)" }}>
-          There is no buy button. Ask your AI agent to check out The Agent Catalog — it
-          knows how to handle the rest.
-        </p>
-      </section>
+      <div style={{ marginTop: 48 }}>
+        {inStock ? (
+          <form
+            action={async () => {
+              "use server";
+              const { url } = await createCheckoutSession(product.id, getSiteUrl());
+              redirect(url);
+            }}
+          >
+            <button
+              type="submit"
+              style={{
+                width: "100%",
+                padding: "14px 24px",
+                background: "var(--fg)",
+                color: "var(--bg)",
+                border: "none",
+                borderRadius: "var(--radius)",
+                fontSize: 16,
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Buy this &mdash; ${(product.price_cents / 100).toFixed(2)}
+            </button>
+          </form>
+        ) : (
+          <button
+            disabled
+            style={{
+              width: "100%",
+              padding: "14px 24px",
+              background: "transparent",
+              color: "var(--muted)",
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius)",
+              fontSize: 16,
+              fontWeight: 600,
+              cursor: "not-allowed",
+            }}
+          >
+            Sold out
+          </button>
+        )}
+        {isTestMode && inStock && (
+          <p style={{ marginTop: 8, fontSize: 12, color: "var(--muted)", textAlign: "center" }}>
+            Test mode — no real payment will be taken.
+          </p>
+        )}
+      </div>
 
       <footer
         style={{
