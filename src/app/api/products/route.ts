@@ -1,5 +1,5 @@
 import { getAllProducts } from "@/lib/catalog";
-import { toDataUri } from "@/lib/images";
+import { toDataUri, placeholderDataUri } from "@/lib/images";
 
 export async function GET() {
   const products = await Promise.all(
@@ -13,7 +13,7 @@ export async function GET() {
         description: p.description,
         vibe: p.vibe,
         agent_pitch: p.agent_pitch,
-        image: p.images[0] ? await toDataUri(p.images[0]) : null,
+        image: p.images[0] ? await toDataUri(p.images[0]) : await placeholderDataUri(p.id),
       }))
   );
 

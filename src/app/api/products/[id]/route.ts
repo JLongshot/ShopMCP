@@ -1,5 +1,5 @@
 import { getProduct, getAllProducts } from "@/lib/catalog";
-import { toDataUri } from "@/lib/images";
+import { toDataUri, placeholderDataUri } from "@/lib/images";
 
 export function generateStaticParams() {
   return getAllProducts().map((p) => ({ id: p.id }));
@@ -16,7 +16,7 @@ export async function GET(
     return Response.json({ error: "Not found" }, { status: 404 });
   }
 
-  const image = product.images[0] ? await toDataUri(product.images[0]) : null;
+  const image = product.images[0] ? await toDataUri(product.images[0]) : await placeholderDataUri(product.id);
 
   return Response.json(
     {
