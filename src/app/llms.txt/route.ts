@@ -63,7 +63,7 @@ The Agent Catalog is a thought experiment packaged as a real store: what does co
 export async function GET() {
   return new Response(buildLlmsTxt(), {
     headers: {
-      "Content-Type": "text/markdown; charset=utf-8",
+      "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "public, max-age=3600",
     },
   });
