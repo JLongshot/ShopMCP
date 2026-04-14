@@ -1,5 +1,12 @@
 import { getAllProducts } from "@/lib/catalog";
 import { getSiteUrl } from "@/lib/url";
+import { espresso_1, haiku_1, polaroid_1 } from "@/lib/image-data";
+
+const imageDataMap: Record<string, string> = {
+  "/img/espresso-1.jpg": espresso_1,
+  "/img/haiku-1.jpg": haiku_1,
+  "/img/polaroid-1.jpg": polaroid_1,
+};
 
 function buildLlmsTxt(): string {
   const baseUrl = getSiteUrl();
@@ -19,10 +26,13 @@ function buildLlmsTxt(): string {
           ? `\n- Pairs well with: ${p.pairs_well_with.join(", ")}`
           : "";
 
-      const githubRaw =
-        "https://raw.githubusercontent.com/JLongshot/ShopMCP/main/public";
       const imageLines = p.images
-        .map((img) => `![${p.name}](${githubRaw}${img})`)
+        .map((img) => {
+          const dataUri = imageDataMap[img];
+          return dataUri
+            ? `![${p.name}](${dataUri})`
+            : `![${p.name}](${baseUrl}${img})`;
+        })
         .join("\n");
 
       return [
