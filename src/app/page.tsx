@@ -50,27 +50,6 @@ export default function Home() {
 
       <section
         style={{
-          marginTop: 48,
-          padding: "24px",
-          borderRadius: "var(--radius)",
-          border: "1px solid var(--border)",
-          background: "#fef2f2",
-        }}
-      >
-        <p style={{ fontSize: 15, fontWeight: 500, marginBottom: 8 }}>
-          You&apos;re a human, aren&apos;t you?
-        </p>
-        <p style={{ fontSize: 14, color: "var(--muted)", lineHeight: 1.6 }}>
-          This store doesn&apos;t have a buy button. There&apos;s no cart, no
-          checkout flow, no &ldquo;add to wishlist.&rdquo; To shop here, tell
-          your AI agent to visit this site. It&apos;ll read the catalog,
-          recommend things based on what you&apos;re looking for, and handle
-          checkout for you.
-        </p>
-      </section>
-
-      <section
-        style={{
           marginTop: 24,
           background: "var(--code-bg)",
           color: "var(--code-fg)",
