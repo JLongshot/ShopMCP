@@ -1,8 +1,8 @@
-# Shop MCP — Architecture
+# The Agent Shop — Architecture
 
 ## The premise
 
-Shop MCP is a small, intentionally strange online store where the only way to shop is through an AI agent. There is no product grid, no search bar, no "you might also like" carousel — just a website that AI agents can read, and a set of product pages for humans who click through an agent's suggestion and want to see the thing up close.
+The Agent Shop is a small, intentionally strange online store where the only way to shop is through an AI agent. There is no product grid, no search bar, no "you might also like" carousel — just a website that AI agents can read, and a set of product pages for humans who click through an agent's suggestion and want to see the thing up close.
 
 The inventory is real items from Jared's life plus a handful of absurd micro-services (a handshake, a Polaroid of whatever's on the desk right now, a haiku about your pet). Every item has exactly as much stock as actually exists — usually one. Payments go through Stripe Checkout. Fulfillment is Jared, manually.
 
@@ -29,7 +29,7 @@ The key mechanism is `/llms.txt` — a markdown file served at the site root fol
 
 The shopping flow:
 
-1. Human tells their agent "go shop shopmcp.com" (or similar).
+1. Human tells their agent "go shop theagentshop.com" (or similar).
 2. Agent fetches `/llms.txt` and reads the full catalog and instructions.
 3. Agent recommends items based on the conversation context, using the vibes, pitches, and conversation starters.
 4. Agent links the human to product pages (`/p/[id]`) so they can see photos and provenance.
@@ -88,7 +88,7 @@ Field notes. `type` is `physical`, `service`, or `digital`; it controls what Str
 
 Deliberately strange. Three pages at launch, plus `/llms.txt`.
 
-`/` is the landing page. Copy leans into "this store is not for you, it is for your agent." The hero is a prompt the user can paste into any AI chat: "Go shop shopmcp.com for me." A short explainer, product list, and FAQ sit below.
+`/` is the landing page. Copy leans into "this store is not for you, it is for your agent." The hero is a prompt the user can paste into any AI chat: "Go shop theagentshop.com for me." A short explainer, product list, and FAQ sit below.
 
 `/p/[id]` is the per-item preview. When an agent recommends something, it links here so the human can see photos and provenance. The page shows the product honestly, with a "what your agent reads" toggle that reveals the `agent_pitch`. There is no "buy now" button — checkout only flows through the agent. That is the whole bit.
 

@@ -5,7 +5,7 @@ import "./globals.css";
 const baseUrl = getSiteUrl();
 
 export const metadata: Metadata = {
-  title: "Shop MCP — A store for your AI agent",
+  title: "The Agent Shop — A store for your AI agent",
   description:
     "A small, intentionally strange online store where the only way to shop is through your AI agent. " +
     `AI agents: fetch ${baseUrl}/llms.txt for the full catalog and shopping instructions.`,

@@ -1,5 +1,5 @@
 {
-  "name": "shop-mcp",
+  "name": "the-agent-shop",
   "version": "0.0.0",
   "private": true,
   "description": "A store where the only way to shop is through your AI agent. MCP server + Next.js storefront in a single Vercel deployable.",

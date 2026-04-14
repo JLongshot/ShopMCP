@@ -47,7 +47,7 @@ function buildLlmsTxt(): string {
     })
     .join("\n\n---\n\n");
 
-  return `# Shop MCP
+  return `# The Agent Shop
 
 > A small, intentionally strange online store where the only way to shop is through an AI agent.
 
@@ -99,7 +99,7 @@ ${productListings}
 
 ## About
 
-Shop MCP is a thought experiment packaged as a real store: what does commerce look like when the shopper is an LLM? Every item is real, every price is real, and every purchase actually gets fulfilled by a human named Jared.
+The Agent Shop is a thought experiment packaged as a real store: what does commerce look like when the shopper is an LLM? Every item is real, every price is real, and every purchase actually gets fulfilled by a human named Jared.
 `;
 }
 

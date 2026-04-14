@@ -15,7 +15,7 @@ export async function generateMetadata({
   const product = getProduct(id);
   if (!product) return {};
   return {
-    title: `${product.name} — Shop MCP`,
+    title: `${product.name} — The Agent Shop`,
     description: product.description,
   };
 }
@@ -41,7 +41,7 @@ export default async function ProductPage({
           textDecoration: "none",
         }}
       >
-        &larr; Shop MCP
+        &larr; The Agent Shop
       </a>
 
       {product.images.length > 0 && (
@@ -187,7 +187,7 @@ export default async function ProductPage({
           Want to buy this?
         </p>
         <p style={{ fontSize: 14, color: "var(--muted)" }}>
-          There is no buy button. Ask your AI agent to check out Shop MCP — it
+          There is no buy button. Ask your AI agent to check out The Agent Shop — it
           knows how to handle the rest.
         </p>
       </section>
@@ -202,7 +202,7 @@ export default async function ProductPage({
         }}
       >
         <a href="/" style={{ color: "var(--muted)" }}>
-          Shop MCP
+          The Agent Shop
         </a>
         {" — "}A store for your AI agent.
       </footer>

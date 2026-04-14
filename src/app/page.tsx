@@ -35,7 +35,7 @@ export default function Home() {
 
       <header>
         <h1 style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.2 }}>
-          Shop MCP
+          The Agent Shop
         </h1>
         <p
           style={{
