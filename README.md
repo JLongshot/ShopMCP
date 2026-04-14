@@ -1,19 +1,66 @@
 # Shop MCP
 
-A small online store with no browsable storefront. The only way to shop is by connecting the store's MCP server to an AI agent and having a conversation. Inventory is real physical items from Jared's life plus a handful of absurd micro-services; most exist in quantity one. Payment is Stripe, fulfillment is Jared.
+A small, intentionally strange online store where the only way to shop is through your AI agent. No product grid, no cart, no buy button — just a website that AI agents can read and shop on behalf of their humans.
 
-**Status:** bootstrapping. Nothing is built yet — this repo currently holds the architecture doc and an empty scaffold.
+Inventory is real physical items from Jared's life plus a handful of absurd micro-services; most exist in quantity one. Payment is Stripe, fulfillment is Jared.
 
-## Architecture
+## How it works
 
-See [`docs/architecture.md`](docs/architecture.md) for the full design (system components, catalog schema, MCP tool surface, payment flow, build order).
+1. A human tells their AI agent to visit the site (e.g. "go shop shopmcp.com for me").
+2. The agent fetches `/llms.txt` — a markdown file containing the full catalog, shopping instructions, and tone guidance.
+3. The agent recommends items, links to product pages, and handles checkout.
+4. Jared ships it (or performs the service).
 
-The live source of truth for the architecture doc lives at `~/Documents/Claude/Projects/Shop MCP/architecture.md`; the copy in this repo is a snapshot.
+No MCP installation, no config, no trust decisions. Any AI that can read a webpage can shop here.
 
-## Stack (per arch doc)
+## Stack
 
-TypeScript + Next.js, single deployable on Vercel. Postgres on Neon. Stripe Checkout for payments. The MCP endpoint is a route in the same Next.js app as the website.
+- **Framework:** Next.js (TypeScript)
+- **Hosting:** Vercel
+- **Payments:** Stripe Checkout (Phase 2)
+- **Database:** Postgres on Neon (Phase 2)
+
+Single deployable. The catalog lives in `catalog.json` at the repo root.
+
+## Project structure
+
+```
+catalog.json              # Source of truth for all products
+src/
+├── app/
+│   ├── layout.tsx        # Root layout + metadata
+│   ├── globals.css       # Minimal styling (CSS variables)
+│   ├── page.tsx          # Landing page
+│   ├── llms.txt/
+│   │   └── route.ts      # /llms.txt — agent-readable catalog + instructions
+│   └── p/[id]/
+│       ├── page.tsx      # Product detail pages (SSG)
+│       └── agent-pitch-toggle.tsx  # "What your agent reads" client component
+└── lib/
+    └── catalog.ts        # Typed catalog helpers
+docs/
+└── architecture.md       # Full design doc
+```
+
+## Development
+
+```bash
+npm install
+npm run dev       # http://localhost:3000
+npm run build     # Production build
+npm run typecheck # Type checking
+```
 
 ## Build order
 
-Per the arch doc, roughly: seed `catalog.json` → MCP with `list_products` / `get_product` from JSON → Next.js landing + `/p/[id]` → Vercel deploy → Postgres sync → Stripe Checkout + webhooks → admin page → full catalog → launch.
+1. ~~Seed `catalog.json` with 3 items~~ Done
+2. ~~Build `/llms.txt` route with full catalog + agent instructions~~ Done
+3. ~~Next.js landing page + `/p/[id]` product pages~~ Done
+4. Deploy to Vercel
+5. Add Postgres, sync catalog on deploy, `orders` + `inventory_holds` schemas
+6. Integrate Stripe Checkout, webhooks, email notifications
+7. Add `/sold` graveyard page
+8. Fill out full catalog with real photos + final prices
+9. Polish landing page, cut launch video
+10. Soft-launch to friends, fix bugs
+11. Public launch

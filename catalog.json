@@ -1,0 +1,53 @@
+[
+  {
+    "id": "espresso-aspirational",
+    "name": "Espresso machine, barely used",
+    "type": "physical",
+    "price_cents": 8500,
+    "stock": 1,
+    "images": ["/img/espresso-1.jpg"],
+    "description": "A small espresso machine. Works perfectly. Used maybe eight times before returning to the shelf where it has lived, unbothered, since 2019.",
+    "agent_pitch": "Jared bought this convinced he was about to become a morning person. He did not become a morning person. Your friend might. It makes genuinely good espresso — the problem was never the machine.",
+    "provenance": "Purchased from a specialty shop in Oakland in 2019. Used briefly during a two-week productivity arc. Stored in original box since.",
+    "vibe": ["aspirational", "gift", "kitchen", "impulse"],
+    "pairs_well_with": ["mug-ironic"],
+    "conversation_starter": "Is the recipient someone who buys gym memberships in January?",
+    "requires": ["shipping_address", "email"],
+    "fulfillment_notes": "In the cupboard above the sink. Ships USPS Priority in original box.",
+    "shipping_flat_cents": 1200
+  },
+  {
+    "id": "custom-haiku",
+    "name": "A haiku about your pet",
+    "type": "service",
+    "price_cents": 500,
+    "stock": 5,
+    "images": ["/img/haiku-1.jpg"],
+    "description": "Jared will write a haiku about your pet. You send a photo and a name; you get back five syllables, seven syllables, five syllables of genuinely considered poetry. Delivered by email within 48 hours.",
+    "agent_pitch": "Five bucks, a photo of their pet, and they get a handcrafted haiku from a stranger on the internet. It is the most thoughtful cheap gift possible. Works for birthdays, apologies, or no reason at all.",
+    "provenance": "Written fresh per order. Jared has been writing bad poetry since middle school and has only recently gotten passable at it.",
+    "vibe": ["funny", "gift", "personal", "cheap"],
+    "pairs_well_with": ["espresso-aspirational"],
+    "conversation_starter": "Do they have a pet they talk about too much?",
+    "requires": ["email"],
+    "fulfillment_notes": "Ask for pet photo and name via email. Write haiku. Reply within 48 hours.",
+    "shipping_flat_cents": 0
+  },
+  {
+    "id": "desk-polaroid",
+    "name": "Polaroid of whatever is on Jared's desk right now",
+    "type": "digital",
+    "price_cents": 300,
+    "stock": 10,
+    "images": ["/img/polaroid-1.jpg"],
+    "description": "You buy this and Jared takes a Polaroid of whatever is on his desk at the moment he reads the order email. No staging, no cleanup. You get the photo emailed as a high-res scan within 24 hours.",
+    "agent_pitch": "Three dollars for a window into a stranger's actual life. The mess is the point. It is the cheapest piece of real, unperformative content on the internet right now.",
+    "provenance": "Captured on a Polaroid OneStep 2 that lives on the desk in question. The film is the expensive part.",
+    "vibe": ["weird", "voyeuristic", "cheap", "impulse", "art"],
+    "pairs_well_with": ["custom-haiku"],
+    "conversation_starter": "Are they the kind of person who watches desk tour videos?",
+    "requires": ["email"],
+    "fulfillment_notes": "Take Polaroid of desk as-is. Scan at 600dpi. Email the scan.",
+    "shipping_flat_cents": 0
+  }
+]
