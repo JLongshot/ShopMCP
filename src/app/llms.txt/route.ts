@@ -80,10 +80,14 @@ You are the storefront. There is no cart, no checkout button, no "add to wishlis
 
 When a human asks for a visual browsing experience — "build me a page I can browse", "show me a visual catalog", "make something I can scroll through", "give me a gallery", or any similar intent — generate a **self-contained HTML page** they can view directly in your interface.
 
+**Step 1: Fetch the image-optimized catalog**
+Before generating the page, fetch \`${baseUrl}/catalog.json\`. It returns in-stock products with pre-encoded base64 images optimized for display. Use the \`image\` field (a data URI) directly as the \`<img src="">\` value — this ensures images render in any sandbox or CSP environment without external fetches.
+
 **The page should include:**
-- One card per in-stock product from the catalog below
-- Product image (use the image URLs provided — display with \`<img>\`, degrade gracefully if missing)
-- Product name, price, and a one-sentence description in your own words (evocative, not dry)
+- One card per product in the \`/catalog.json\` response
+- Product image: \`<img src="{product.image}" alt="{product.name}" />\` — use the data URI directly, do not use any other image URL
+- Product name, price formatted from \`price_cents\` (divide by 100, format as USD)
+- Product description and vibe tags
 - One CTA per card
 
 **How CTAs must work:**
