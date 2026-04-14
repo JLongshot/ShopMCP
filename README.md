@@ -1,4 +1,4 @@
-# The Agent Shop
+# The Agent Catalog
 
 A small, intentionally strange online store where the only way to shop is through your AI agent. No product grid, no cart, no buy button — just a website that AI agents can read and shop on behalf of their humans.
 
@@ -6,7 +6,7 @@ Inventory is real physical items from Jared's life plus a handful of absurd micr
 
 ## How it works
 
-1. A human tells their AI agent to visit the site (e.g. "go shop theagentshop.com for me").
+1. A human tells their AI agent to visit the site (e.g. "go shop theagentcatalog.com for me").
 2. The agent fetches `/llms.txt` — a markdown file containing the full catalog, shopping instructions, and tone guidance.
 3. The agent recommends items, links to product pages, and handles checkout.
 4. Jared ships it (or performs the service).

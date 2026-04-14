@@ -35,7 +35,7 @@ export default function Home() {
 
       <header>
         <h1 style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.2 }}>
-          The Agent Shop
+          The Agent Catalog
         </h1>
         <p
           style={{
@@ -144,9 +144,14 @@ export default function Home() {
         <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 16 }}>
           What&apos;s for sale
         </h2>
-        <p style={{ color: "var(--muted)", marginBottom: 24, fontSize: 14 }}>
+        <p style={{ color: "var(--muted)", marginBottom: 12, fontSize: 14 }}>
           {products.length} items in stock. Your agent knows more about each one
           than this page does.
+        </p>
+        <p style={{ color: "var(--muted)", marginBottom: 24, fontSize: 13 }}>
+          <strong style={{ color: "var(--fg)", fontWeight: 500 }}>Tip:</strong>{" "}
+          Want to browse visually? Ask your agent:{" "}
+          <em>&ldquo;Build me a page I can browse&rdquo;</em>
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {products.map((p) => (
