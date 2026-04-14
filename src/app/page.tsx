@@ -1,8 +1,6 @@
-import { getAllProducts } from "@/lib/catalog";
 import { getSiteUrl } from "@/lib/url";
 
 export default function Home() {
-  const products = getAllProducts().filter((p) => p.stock > 0);
   const siteUrl = getSiteUrl();
 
   return (
@@ -119,67 +117,11 @@ export default function Home() {
         </ol>
       </section>
 
-      <section style={{ marginTop: 64 }}>
-        <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 16 }}>
-          What&apos;s for sale
-        </h2>
-        <p style={{ color: "var(--muted)", marginBottom: 12, fontSize: 14 }}>
-          {products.length} items in stock. Your agent knows more about each one
-          than this page does.
-        </p>
-        <p style={{ color: "var(--muted)", marginBottom: 24, fontSize: 13 }}>
-          <strong style={{ color: "var(--fg)", fontWeight: 500 }}>Tip:</strong>{" "}
-          Want to browse visually? Ask your agent:{" "}
-          <em>&ldquo;Build me a page I can browse&rdquo;</em>
-        </p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {products.map((p) => (
-            <a
-              key={p.id}
-              href={`/p/${p.id}`}
-              style={{
-                display: "block",
-                border: "1px solid var(--border)",
-                borderRadius: "var(--radius)",
-                padding: "16px 20px",
-                textDecoration: "none",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                  gap: 12,
-                }}
-              >
-                <span style={{ fontWeight: 500 }}>{p.name}</span>
-                <span
-                  style={{
-                    fontSize: 14,
-                    color: "var(--muted)",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  ${(p.price_cents / 100).toFixed(2)}
-                </span>
-              </div>
-              <span
-                style={{
-                  display: "inline-block",
-                  marginTop: 6,
-                  fontSize: 12,
-                  color: "var(--muted)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em",
-                }}
-              >
-                {p.type}
-              </span>
-            </a>
-          ))}
-        </div>
-      </section>
+      <p style={{ marginTop: 32, fontSize: 13, color: "var(--muted)" }}>
+        <strong style={{ color: "var(--fg)", fontWeight: 500 }}>Tip:</strong>{" "}
+        Want to browse visually? Ask your agent:{" "}
+        <em>&ldquo;Build me a page I can browse&rdquo;</em>
+      </p>
 
       <section style={{ marginTop: 64 }}>
         <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>
