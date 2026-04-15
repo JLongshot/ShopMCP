@@ -126,12 +126,52 @@ export default function Home() {
             }}
           />
 
-          {/* Prompt card — click anywhere to copy */}
-          <PromptCard text={LANDING_PROMPT} />
-
-          {/* Agent deep-link buttons — pre-fill each agent's composer with the prompt */}
+          {/* Primary CTAs — large filled buttons that deep-link into Claude / ChatGPT */}
           <AgentButtonRow />
+
+          {/* Divider — signals the card below is the fallback path */}
+          <span
+            style={{
+              marginTop: 32,
+              marginBottom: 16,
+              fontSize: 11,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: MUTED,
+            }}
+          >
+            or
+          </span>
+
+          {/* Prompt card — secondary option for any other agent */}
+          <PromptCard text={LANDING_PROMPT} />
         </section>
+
+        {/* Seller CTA — standalone row above the copyright footer */}
+        <div
+          style={{
+            padding: "20px 16px 4px",
+            display: "flex",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <a
+            href="mailto:ovenbeard@gmail.com?subject=Feature%20my%20items%20on%20The%20Agent%20Catalog&body=Hi%20Jared%2C%0A%0AI%27d%20like%20to%20get%20my%20items%20featured%20on%20The%20Agent%20Catalog.%0A%0AStore%20%2F%20brand%3A%20%0AWhat%20I%20sell%3A%20%0ALink%3A%20%0A%0AThanks%21"
+            className="footer-link"
+            style={{
+              fontSize: 12,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              color: FG,
+              textDecoration: "none",
+              borderBottom: `1px solid ${FG}`,
+              paddingBottom: 2,
+            }}
+          >
+            Are you a seller? Get your items featured →
+          </a>
+        </div>
 
         {/* Footer — plain text links */}
         <footer

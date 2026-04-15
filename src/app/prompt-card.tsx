@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 
-const ACCENT = "#5b5bd6";
-const ACCENT_HOVER = "#4848c4";
 const FG = "#111";
 const MUTED = "#7a7d80";
 
@@ -38,6 +36,7 @@ export default function PromptCard({ text }: { text: string }) {
       onMouseLeave={() => setHovered(false)}
       role="button"
       tabIndex={0}
+      aria-label="Copy prompt to clipboard"
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
@@ -45,13 +44,12 @@ export default function PromptCard({ text }: { text: string }) {
         }
       }}
       style={{
-        marginTop: 64,
         width: "100%",
         maxWidth: 560,
         background: "#ffffff",
-        border: "1px solid #111",
+        border: `1px solid ${MUTED}`,
         borderRadius: 8,
-        padding: 24,
+        padding: 20,
         textAlign: "left",
         cursor: "pointer",
         transform: hovered ? "translateY(-1px)" : "none",
@@ -59,52 +57,60 @@ export default function PromptCard({ text }: { text: string }) {
         transition: "transform 0.15s ease, box-shadow 0.15s ease",
       }}
     >
-      <span
+      <div
         style={{
-          display: "block",
-          fontSize: 10,
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-          color: MUTED,
-          marginBottom: 12,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 10,
+          gap: 12,
         }}
       >
-        PROMPT
-      </span>
-
-      <p
-        style={{
-          fontSize: 15,
-          lineHeight: 1.7,
-          color: FG,
-          marginBottom: 20,
-          wordBreak: "break-all",
-        }}
-      >
-        {text}
-      </p>
-
-      <div style={{ display: "flex", justifyContent: "center" }}>
+        <span
+          style={{
+            display: "block",
+            fontSize: 10,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: MUTED,
+          }}
+        >
+          FOR ANY OTHER AGENT — COPY PROMPT
+        </span>
         <button
           onClick={handleButtonClick}
+          aria-label="Copy prompt to clipboard"
           style={{
-            padding: "12px 48px",
-            background: copied ? ACCENT_HOVER : ACCENT,
-            color: "#ffffff",
-            border: "none",
-            borderRadius: 6,
-            fontSize: 12,
+            padding: "6px 14px",
+            background: "transparent",
+            color: copied ? FG : MUTED,
+            border: `1px solid ${copied ? FG : MUTED}`,
+            borderRadius: 4,
+            fontSize: 10,
             fontFamily: "var(--font-mono)",
             fontWeight: 500,
             letterSpacing: "0.08em",
             textTransform: "uppercase",
             cursor: "pointer",
-            transition: "background 0.15s",
+            transition: "color 0.15s, border-color 0.15s",
+            whiteSpace: "nowrap",
           }}
         >
-          {copied ? "COPIED ✓" : "COPY PROMPT"}
+          {copied ? "COPIED ✓" : "COPY"}
         </button>
       </div>
+
+      <p
+        style={{
+          fontSize: 14,
+          lineHeight: 1.6,
+          color: FG,
+          margin: 0,
+          wordBreak: "break-word",
+        }}
+      >
+        {text}
+      </p>
     </div>
   );
 }

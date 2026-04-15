@@ -1,66 +1,80 @@
 import { LANDING_PROMPT } from "@/lib/prompt";
 
-const FG = "#111";
-const MUTED = "#7a7d80";
+const ACCENT = "#5b5bd6";
+const ACCENT_HOVER = "#4848c4";
 
-type Agent = { name: string; href: (prompt: string) => string };
+type Agent = { label: string; href: (prompt: string) => string };
 
-// ?q= deep-linking is undocumented on all three platforms — behavior can drift.
+// ?q= deep-linking is undocumented on both platforms — behavior can drift.
+// Gemini was dropped because its deep link doesn't reliably pre-fill; users of
+// other agents copy the prompt from the secondary card below.
 // Verify manually (logged-in + incognito) before relying on auto-submit.
 const AGENTS: Agent[] = [
   {
-    name: "CLAUDE",
+    label: "Open in Claude",
     href: (p) => `https://claude.ai/new?q=${encodeURIComponent(p)}`,
   },
   {
-    name: "CHATGPT",
+    label: "Open in ChatGPT",
     href: (p) =>
       `https://chatgpt.com/?q=${encodeURIComponent(p)}&hints=search`,
-  },
-  {
-    name: "GEMINI",
-    href: (p) => `https://gemini.google.com/app?q=${encodeURIComponent(p)}`,
   },
 ];
 
 export default function AgentButtonRow() {
   return (
-    <div
-      role="group"
-      aria-label="Open this prompt in an agent"
-      style={{
-        marginTop: 24,
-        fontSize: 12,
-        letterSpacing: "0.06em",
-        textTransform: "uppercase",
-        display: "flex",
-        alignItems: "center",
-        flexWrap: "wrap",
-        justifyContent: "center",
-      }}
-    >
-      {AGENTS.map((a, i) => (
-        <span key={a.name} style={{ display: "flex", alignItems: "center" }}>
-          {i > 0 && <span style={{ color: MUTED, margin: "0 8px" }}>·</span>}
+    <>
+      <style>{`
+        .agent-cta {
+          background: ${ACCENT};
+          transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .agent-cta:hover {
+          background: ${ACCENT_HOVER};
+          transform: translateY(-1px);
+          box-shadow: 0 4px 16px rgba(91, 91, 214, 0.25);
+        }
+      `}</style>
+      <div
+        role="group"
+        aria-label="Open this prompt in an agent"
+        style={{
+          marginTop: 48,
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: 12,
+        }}
+      >
+        {AGENTS.map((a) => (
           <a
+            key={a.label}
             href={a.href(LANDING_PROMPT)}
             target="_blank"
             rel="noopener noreferrer"
-            data-agent={a.name.toLowerCase()}
-            className="footer-link"
+            data-agent={a.label.toLowerCase().replace(/\s+/g, "-")}
+            className="agent-cta"
             style={{
-              color: FG,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "16px 28px",
+              minWidth: 220,
+              color: "#ffffff",
+              borderRadius: 8,
+              fontSize: 14,
+              fontFamily: "var(--font-mono)",
+              fontWeight: 500,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
               textDecoration: "none",
             }}
           >
-            {a.name}
+            {a.label}
           </a>
-        </span>
-      ))}
-      <span style={{ display: "flex", alignItems: "center" }}>
-        <span style={{ color: MUTED, margin: "0 8px" }}>·</span>
-        <span style={{ color: MUTED }}>+ANY AGENT</span>
-      </span>
-    </div>
+        ))}
+      </div>
+    </>
   );
 }
