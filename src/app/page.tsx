@@ -1,13 +1,15 @@
-// TODO: replace Source Serif 4 with GT Super when license/files are available — ask Jared for the .woff2 files from opencard
-import { JetBrains_Mono, Source_Serif_4 } from "next/font/google";
+import localFont from "next/font/local";
+import { JetBrains_Mono } from "next/font/google";
 import { getSiteUrl } from "@/lib/url";
-import CopyButton from "./copy-button";
 import HeadlineTyper from "./headline-typer";
+import PromptCard from "./prompt-card";
 
-const serif = Source_Serif_4({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  weight: ["400", "500"],
+// GT Ultra variable font (weights 100–900) — from opencard-dashboard
+// NOTE: Jared asked for "GT Super" but GT Ultra is what's in the local projects.
+// Verify with Jared — if GT Super files exist, drop this and wire them up via localFont.
+const display = localFont({
+  src: [{ path: "./fonts/GT-Ultra-VF.woff2", weight: "100 900", style: "normal" }],
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -18,11 +20,10 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
-const BG = "#efedea";
+const BG = "#eceeef";
 const FG = "#111";
-const MUTED = "#767372";
-const WHITE = "#ffffff";
-const DOT = "#dcd9d4";
+const MUTED = "#7a7d80";
+const GRID = "#dcdfe1";
 
 const agents = ["CLAUDE", "CHATGPT", "GEMINI"] as const;
 
@@ -32,11 +33,14 @@ export default function Home() {
 
   return (
     <div
-      className={`${mono.variable} ${serif.variable}`}
+      className={`${mono.variable} ${display.variable}`}
       style={{
         fontFamily: "var(--font-mono)",
         backgroundColor: BG,
-        backgroundImage: `radial-gradient(circle, ${DOT} 1.5px, transparent 1.5px)`,
+        backgroundImage: [
+          `linear-gradient(to right, ${GRID} 1px, transparent 1px)`,
+          `linear-gradient(to bottom, ${GRID} 1px, transparent 1px)`,
+        ].join(", "),
         backgroundSize: "24px 24px",
         minHeight: "100vh",
         display: "flex",
@@ -46,7 +50,9 @@ export default function Home() {
       <style>{`
         body {
           background-color: ${BG};
-          background-image: radial-gradient(circle, ${DOT} 1.5px, transparent 1.5px);
+          background-image:
+            linear-gradient(to right, ${GRID} 1px, transparent 1px),
+            linear-gradient(to bottom, ${GRID} 1px, transparent 1px);
           background-size: 24px 24px;
           margin: 0;
         }
@@ -83,13 +89,7 @@ export default function Home() {
         >
           The Agent Catalog
         </span>
-        <span
-          style={{
-            fontSize: 13,
-            letterSpacing: "0.08em",
-            color: FG,
-          }}
-        >
+        <span style={{ fontSize: 13, letterSpacing: "0.08em", color: FG }}>
           × 0
         </span>
       </header>
@@ -115,15 +115,14 @@ export default function Home() {
             textAlign: "center",
           }}
         >
-          {/* Headline — serif, types in on load */}
+          {/* Headline — GT Ultra, sentence case, types in on load */}
           <HeadlineTyper
             text="The shop your AI reads for you."
             style={{
-              fontSize: "clamp(32px, 7vw, 80px)",
+              fontSize: "clamp(40px, 7vw, 80px)",
               fontWeight: 500,
-              fontFamily: "var(--font-serif)",
+              fontFamily: "var(--font-display)",
               letterSpacing: "-0.02em",
-              textTransform: "uppercase",
               lineHeight: 1.05,
               color: FG,
               maxWidth: 900,
@@ -131,50 +130,10 @@ export default function Home() {
             }}
           />
 
-          {/* Copy-prompt card */}
-          <div
-            style={{
-              marginTop: 64,
-              width: "100%",
-              maxWidth: 560,
-              background: WHITE,
-              border: `1px solid ${FG}`,
-              borderRadius: 0,
-              padding: 24,
-              textAlign: "left",
-            }}
-          >
-            {/* Plain label — no box */}
-            <span
-              style={{
-                display: "block",
-                fontSize: 10,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: MUTED,
-                marginBottom: 12,
-              }}
-            >
-              PROMPT
-            </span>
+          {/* Prompt card — click anywhere to copy */}
+          <PromptCard text={prompt} />
 
-            {/* Prompt text */}
-            <p
-              style={{
-                fontSize: 15,
-                lineHeight: 1.7,
-                color: FG,
-                marginBottom: 16,
-                wordBreak: "break-all",
-              }}
-            >
-              {prompt}
-            </p>
-
-            <CopyButton text={prompt} />
-          </div>
-
-          {/* Agent row — inline text with separators, no boxes */}
+          {/* Agent row — inline text with separators */}
           <div
             style={{
               marginTop: 24,
@@ -202,7 +161,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Footer — plain text links, no pill boxes */}
+        {/* Footer — plain text links */}
         <footer
           className="page-footer"
           style={{
