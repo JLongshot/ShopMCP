@@ -34,7 +34,7 @@ export default async function ProductPage({
   const { id } = await params;
   const { checkout_error } = await searchParams;
   const product = getProduct(id);
-  if (!product) notFound();
+  if (!product || product.stock === 0) notFound();
 
   const inStock = product.stock > 0;
   const hasCheckoutError = checkout_error === "1";
