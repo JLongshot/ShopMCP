@@ -1,5 +1,4 @@
 import { getProduct, getAllProducts } from "@/lib/catalog";
-import { toDataUri, placeholderDataUri } from "@/lib/images";
 
 export function generateStaticParams() {
   return getAllProducts().map((p) => ({ id: p.id }));
@@ -16,8 +15,6 @@ export async function GET(
     return Response.json({ error: "Not found" }, { status: 404 });
   }
 
-  const image = product.images[0] ? await toDataUri(product.images[0]) : await placeholderDataUri(product.id);
-
   return Response.json(
     {
       product: {
@@ -28,7 +25,6 @@ export async function GET(
         description: product.description,
         vibe: product.vibe,
         agent_pitch: product.agent_pitch,
-        image,
       },
     },
     { headers: { "Cache-Control": "public, max-age=0, must-revalidate" } }
