@@ -16,8 +16,7 @@ function buildProductSection(baseUrl: string): string {
     .map((p) => {
       const page = `${baseUrl}/p/${p.id}`;
       return [
-        `### ${p.name} — ${formatPrice(p.price_cents)}`,
-        page,
+        `### [${p.name}](${page}) — ${formatPrice(p.price_cents)}`,
         ``,
         p.description,
         ``,
@@ -77,10 +76,6 @@ The goal is to feel like chatting with a knowledgeable friend in a strange littl
 ## About
 
 The Agent Catalog is a thought experiment packaged as a real store: what commerce becomes when the shopper is an LLM. Every item is real, every price is real, and every purchase is fulfilled by a human named Jared.
-
-## Developer note (optional)
-
-For tool-builder integrations there is also a JSON catalog at \`${baseUrl}/api/products\` (and \`${baseUrl}/api/products/:id\` for a single product). Most agents should use the listing above — the API exists for programmatic consumers that need structured data or images.
 `;
 }
 
