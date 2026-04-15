@@ -2,9 +2,6 @@
 
 import { useState } from "react";
 
-const BG = "#0e0d0b";
-const FG = "#ece8dc";
-
 export default function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
 
@@ -12,7 +9,6 @@ export default function CopyButton({ text }: { text: string }) {
     try {
       await navigator.clipboard.writeText(text);
     } catch {
-      // Fallback for environments without clipboard API
       const el = document.createElement("textarea");
       el.value = text;
       document.body.appendChild(el);
@@ -29,20 +25,22 @@ export default function CopyButton({ text }: { text: string }) {
       onClick={handleClick}
       style={{
         width: "100%",
-        padding: "11px 20px",
-        background: copied ? "#d4d0c4" : FG,
-        color: BG,
+        height: 40,
+        padding: "0 16px",
+        background: copied ? "#333" : "#111",
+        color: "#fff",
         border: "none",
-        borderRadius: "var(--radius)",
-        fontSize: 14,
-        fontWeight: 600,
+        borderRadius: 0,
+        fontSize: 12,
+        fontFamily: "var(--font-mono)",
+        fontWeight: 500,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
         cursor: "pointer",
-        transition: "background 0.15s, transform 0.1s",
-        transform: copied ? "scale(0.98)" : "scale(1)",
-        letterSpacing: "0.01em",
+        transition: "background 0.15s",
       }}
     >
-      {copied ? "Copied ✓" : "Copy prompt"}
+      {copied ? "COPIED ✓" : "COPY PROMPT"}
     </button>
   );
 }
