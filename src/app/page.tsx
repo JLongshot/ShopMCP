@@ -187,9 +187,13 @@ export default function Home() {
           color: "var(--muted)",
         }}
       >
-        <p>
-          All items are real. All sales are final. Domestic US shipping only.
-          Services fulfilled within two weeks.
+        <p>All items are real. All sales are final. Domestic US shipping only. Services fulfilled within two weeks.</p>
+        <p style={{ marginTop: 8 }}>
+          <a href="/privacy" style={{ color: "var(--muted)" }}>Privacy</a>
+          {" · "}
+          <a href="/terms" style={{ color: "var(--muted)" }}>Terms</a>
+          {" · "}
+          <a href="mailto:ovenbeard@gmail.com" style={{ color: "var(--muted)" }}>ovenbeard@gmail.com</a>
         </p>
       </footer>
     </main>

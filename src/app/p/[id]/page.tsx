@@ -262,10 +262,13 @@ export default async function ProductPage({
           color: "var(--muted)",
         }}
       >
-        <a href="/" style={{ color: "var(--muted)" }}>
-          The Agent Catalog
-        </a>
-        {" — "}A store for your AI agent.
+        <a href="/" style={{ color: "var(--muted)" }}>The Agent Catalog</a>
+        {" · "}
+        <a href="/privacy" style={{ color: "var(--muted)" }}>Privacy</a>
+        {" · "}
+        <a href="/terms" style={{ color: "var(--muted)" }}>Terms</a>
+        {" · "}
+        <a href="mailto:ovenbeard@gmail.com" style={{ color: "var(--muted)" }}>ovenbeard@gmail.com</a>
       </footer>
     </main>
   );

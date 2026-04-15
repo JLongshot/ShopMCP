@@ -42,6 +42,18 @@ docs/
 └── architecture.md       # Full design doc
 ```
 
+## Environment variables
+
+| Variable | Required | Notes |
+|---|---|---|
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Yes | From Stripe dashboard (Developers → API keys) |
+| `STRIPE_SECRET_KEY` | Yes | From Stripe dashboard — keep secret, server-only |
+| `STRIPE_WEBHOOK_SECRET` | Yes for webhooks | From Stripe dashboard after creating the webhook endpoint. Set the endpoint URL to `https://theagentcatalog.com/api/webhooks/stripe` and listen for `checkout.session.completed`. |
+| `RESEND_API_KEY` | Yes for emails | From resend.com. Requires domain verification for `orders@theagentcatalog.com`. Without this key, order emails are skipped but the webhook still processes successfully. |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | Full URL of the site (e.g. `https://theagentcatalog.com`). Used for Stripe checkout success/cancel URLs. Falls back to `VERCEL_URL` or `localhost:3000`. |
+
+**Inventory note:** When an item sells, update its `stock` in `catalog.json` and push to main. Vercel's serverless filesystem is immutable — runtime writes won't persist. A proper inventory database is planned for a future phase.
+
 ## Development
 
 ```bash
