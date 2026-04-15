@@ -1,6 +1,15 @@
-import { JetBrains_Mono } from "next/font/google";
+// TODO: replace Source Serif 4 with GT Super when license/files are available — ask Jared for the .woff2 files from opencard
+import { JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { getSiteUrl } from "@/lib/url";
 import CopyButton from "./copy-button";
+import HeadlineTyper from "./headline-typer";
+
+const serif = Source_Serif_4({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  weight: ["400", "500"],
+  display: "swap",
+});
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
@@ -13,6 +22,7 @@ const BG = "#efedea";
 const FG = "#111";
 const MUTED = "#767372";
 const WHITE = "#ffffff";
+const DOT = "#dcd9d4";
 
 const agents = ["CLAUDE", "CHATGPT", "GEMINI"] as const;
 
@@ -22,17 +32,25 @@ export default function Home() {
 
   return (
     <div
-      className={mono.variable}
+      className={`${mono.variable} ${serif.variable}`}
       style={{
         fontFamily: "var(--font-mono)",
-        background: BG,
+        backgroundColor: BG,
+        backgroundImage: `radial-gradient(circle, ${DOT} 1.5px, transparent 1.5px)`,
+        backgroundSize: "24px 24px",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
       }}
     >
       <style>{`
-        body { background: ${BG}; margin: 0; }
+        body {
+          background-color: ${BG};
+          background-image: radial-gradient(circle, ${DOT} 1.5px, transparent 1.5px);
+          background-size: 24px 24px;
+          margin: 0;
+        }
+        .footer-link:hover { text-decoration: underline; text-underline-offset: 3px; }
         @media (max-width: 600px) {
           .page-footer { flex-direction: column !important; align-items: center !important; text-align: center; }
         }
@@ -46,7 +64,7 @@ export default function Home() {
           left: 0,
           right: 0,
           height: 48,
-          background: BG,
+          backgroundColor: BG,
           borderBottom: `1px solid ${FG}`,
           display: "flex",
           alignItems: "center",
@@ -85,7 +103,7 @@ export default function Home() {
           flexDirection: "column",
         }}
       >
-        {/* Hero — fill remaining viewport height */}
+        {/* Hero — fills remaining viewport height */}
         <section
           style={{
             flex: 1,
@@ -97,12 +115,13 @@ export default function Home() {
             textAlign: "center",
           }}
         >
-          {/* Headline */}
-          <h1
+          {/* Headline — serif, types in on load */}
+          <HeadlineTyper
+            text="The shop your AI reads for you."
             style={{
               fontSize: "clamp(32px, 7vw, 80px)",
               fontWeight: 500,
-              fontFamily: "var(--font-mono)",
+              fontFamily: "var(--font-serif)",
               letterSpacing: "-0.02em",
               textTransform: "uppercase",
               lineHeight: 1.05,
@@ -110,9 +129,7 @@ export default function Home() {
               maxWidth: 900,
               margin: 0,
             }}
-          >
-            The shop your AI reads for you.
-          </h1>
+          />
 
           {/* Copy-prompt card */}
           <div
@@ -127,19 +144,15 @@ export default function Home() {
               textAlign: "left",
             }}
           >
-            {/* Pill tag */}
+            {/* Plain label — no box */}
             <span
               style={{
-                display: "inline-block",
-                background: WHITE,
-                border: `1px solid ${FG}`,
-                padding: "2px 8px",
-                fontSize: 11,
-                letterSpacing: "0.08em",
+                display: "block",
+                fontSize: 10,
+                letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                color: FG,
-                marginBottom: 14,
-                borderRadius: 0,
+                color: MUTED,
+                marginBottom: 12,
               }}
             >
               PROMPT
@@ -161,54 +174,35 @@ export default function Home() {
             <CopyButton text={prompt} />
           </div>
 
-          {/* Agent pills */}
+          {/* Agent row — inline text with separators, no boxes */}
           <div
             style={{
               marginTop: 24,
+              fontSize: 12,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
               display: "flex",
-              flexWrap: "wrap",
-              gap: 8,
-              justifyContent: "center",
               alignItems: "center",
+              flexWrap: "wrap",
+              justifyContent: "center",
             }}
           >
-            {agents.map((name) => (
-              <span
-                key={name}
-                style={{
-                  display: "inline-block",
-                  background: WHITE,
-                  border: `1px solid ${FG}`,
-                  padding: "4px 10px",
-                  fontSize: 11,
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  color: FG,
-                  borderRadius: 0,
-                }}
-              >
-                {name}
+            {agents.map((name, i) => (
+              <span key={name} style={{ display: "flex", alignItems: "center" }}>
+                {i > 0 && (
+                  <span style={{ color: MUTED, margin: "0 8px" }}>·</span>
+                )}
+                <span style={{ color: FG }}>{name}</span>
               </span>
             ))}
-            <span
-              style={{
-                display: "inline-block",
-                background: WHITE,
-                border: "1px solid #ccc",
-                padding: "4px 10px",
-                fontSize: 11,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                color: MUTED,
-                borderRadius: 0,
-              }}
-            >
-              + ANY AGENT
+            <span style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ color: MUTED, margin: "0 8px" }}>·</span>
+              <span style={{ color: MUTED }}>+ANY AGENT</span>
             </span>
           </div>
         </section>
 
-        {/* Footer */}
+        {/* Footer — plain text links, no pill boxes */}
         <footer
           className="page-footer"
           style={{
@@ -233,7 +227,7 @@ export default function Home() {
           <div
             style={{
               display: "flex",
-              gap: 8,
+              alignItems: "center",
               flexWrap: "wrap",
               justifyContent: "center",
             }}
@@ -242,25 +236,27 @@ export default function Home() {
               { label: "PRIVACY", href: "/privacy" },
               { label: "TERMS", href: "/terms" },
               { label: "OVENBEARD@GMAIL.COM", href: "mailto:ovenbeard@gmail.com" },
-            ].map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                style={{
-                  display: "inline-block",
-                  background: WHITE,
-                  border: "1px solid #ccc",
-                  padding: "3px 8px",
-                  fontSize: 11,
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  color: MUTED,
-                  textDecoration: "none",
-                  borderRadius: 0,
-                }}
-              >
-                {label}
-              </a>
+            ].map(({ label, href }, i) => (
+              <span key={label} style={{ display: "flex", alignItems: "center" }}>
+                {i > 0 && (
+                  <span style={{ color: MUTED, margin: "0 8px", fontSize: 11 }}>
+                    ·
+                  </span>
+                )}
+                <a
+                  href={href}
+                  className="footer-link"
+                  style={{
+                    fontSize: 11,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    color: MUTED,
+                    textDecoration: "none",
+                  }}
+                >
+                  {label}
+                </a>
+              </span>
             ))}
           </div>
         </footer>
