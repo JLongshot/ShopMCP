@@ -26,14 +26,18 @@ export async function generateMetadata({
 
 export default async function ProductPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ checkout_error?: string }>;
 }) {
   const { id } = await params;
+  const { checkout_error } = await searchParams;
   const product = getProduct(id);
   if (!product) notFound();
 
   const inStock = product.stock > 0;
+  const hasCheckoutError = checkout_error === "1";
 
   return (
     <main style={{ maxWidth: 640, margin: "0 auto", padding: "80px 24px" }}>
@@ -179,12 +183,32 @@ export default async function ProductPage({
       )}
 
       <div style={{ marginTop: 48 }}>
+        {hasCheckoutError && (
+          <p
+            style={{
+              marginBottom: 12,
+              fontSize: 13,
+              color: "var(--accent)",
+              padding: "10px 14px",
+              border: "1px solid var(--accent)",
+              borderRadius: "var(--radius)",
+              opacity: 0.85,
+            }}
+          >
+            Hmm — something went wrong starting checkout. Try again in a moment.
+          </p>
+        )}
         {inStock ? (
           <form
             action={async () => {
               "use server";
-              const { url } = await createCheckoutSession(product.id, getSiteUrl());
-              redirect(url);
+              try {
+                const { url } = await createCheckoutSession(product.id, getSiteUrl());
+                redirect(url);
+              } catch (err) {
+                console.error("[checkout] Session creation failed:", err);
+                redirect(`/p/${product.id}?checkout_error=1`);
+              }
             }}
           >
             <button
