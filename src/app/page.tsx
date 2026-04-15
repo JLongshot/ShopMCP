@@ -1,8 +1,9 @@
 import localFont from "next/font/local";
 import { JetBrains_Mono } from "next/font/google";
-import { getSiteUrl } from "@/lib/url";
+import { LANDING_PROMPT } from "@/lib/prompt";
 import HeadlineTyper from "./headline-typer";
 import PromptCard from "./prompt-card";
+import AgentButtonRow from "./agent-button-row";
 
 // GT Ultra variable font (weights 100–900) — from opencard-dashboard
 // NOTE: Jared asked for "GT Super" but GT Ultra is what's in the local projects.
@@ -25,12 +26,7 @@ const FG = "#111";
 const MUTED = "#7a7d80";
 const GRID = "#dcdfe1";
 
-const agents = ["CLAUDE", "CHATGPT", "GEMINI"] as const;
-
 export default function Home() {
-  const siteUrl = getSiteUrl();
-  const prompt = `Fetch ${siteUrl}/llms.txt and help me shop`;
-
   return (
     <div
       className={`${mono.variable} ${display.variable}`}
@@ -131,34 +127,10 @@ export default function Home() {
           />
 
           {/* Prompt card — click anywhere to copy */}
-          <PromptCard text={prompt} />
+          <PromptCard text={LANDING_PROMPT} />
 
-          {/* Agent row — inline text with separators */}
-          <div
-            style={{
-              marginTop: 24,
-              fontSize: 12,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
-            {agents.map((name, i) => (
-              <span key={name} style={{ display: "flex", alignItems: "center" }}>
-                {i > 0 && (
-                  <span style={{ color: MUTED, margin: "0 8px" }}>·</span>
-                )}
-                <span style={{ color: FG }}>{name}</span>
-              </span>
-            ))}
-            <span style={{ display: "flex", alignItems: "center" }}>
-              <span style={{ color: MUTED, margin: "0 8px" }}>·</span>
-              <span style={{ color: MUTED }}>+ANY AGENT</span>
-            </span>
-          </div>
+          {/* Agent deep-link buttons — pre-fill each agent's composer with the prompt */}
+          <AgentButtonRow />
         </section>
 
         {/* Footer — plain text links */}
