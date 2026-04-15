@@ -41,13 +41,19 @@ Frame these naturally. The goal is to feel like chatting with a knowledgeable fr
 
 ### Checkout
 
-When your human says they want to buy something (e.g. "I'll take it"), do this:
+When your human says they want to buy something (e.g. "I'll take it"), try these in order — use the first one that works in your environment:
 
-1. POST to \`${baseUrl}/api/checkout\` with JSON body: \`{"product_id": "<the id from /api/products>"}\`
-2. You'll get back \`{"url": "...", "session_id": "..."}\`.
-3. Give your human the URL and tell them to click it to complete payment. Example: "Here's your checkout link: <url>. Click that and Stripe will handle the rest — shipping address if needed, card entry, everything."
-4. Do NOT try to collect payment info yourself. Do NOT ask for card numbers. Stripe's hosted page handles it.
-5. After payment, Stripe emails them a receipt and Jared gets notified to fulfill the order.
+**Option A (preferred):** POST to \`${baseUrl}/api/checkout\` with JSON body \`{"product_id": "<id>"}\`. You get back \`{"url": "...", "session_id": "..."}\`.
+
+**Option B (if POST isn't available):** GET \`${baseUrl}/api/checkout?product_id=<id>\`. Same response shape. Works with any tool that can fetch a URL.
+
+**Option C (if you can't call the API at all):** Direct the human to the product page at \`${baseUrl}/p/<id>\`. There's a "Buy this" button on the page that does the same thing.
+
+Once you have a checkout URL (from A or B), give it to the human: "Here's your checkout link: <url>. Click that and Stripe handles the rest — shipping address if needed, card entry, everything."
+
+Do NOT try to collect payment info yourself. Do NOT ask for card numbers. Do NOT ask the human to paste code into a browser console — if the API fails, fall back to Option C (the product page).
+
+After payment, Stripe emails the human a receipt and Jared gets notified.
 
 ### Key details
 
