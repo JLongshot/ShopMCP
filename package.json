@@ -2,7 +2,7 @@
   "name": "the-agent-catalog",
   "version": "0.0.0",
   "private": true,
-  "description": "A store where the only way to shop is through your AI agent. MCP server + Next.js storefront in a single Vercel deployable.",
+  "description": "A store where the only way to shop is through your AI agent. Next.js storefront served with an agent-readable /llms.txt, in a single Vercel deployable.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

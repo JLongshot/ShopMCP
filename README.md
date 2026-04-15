@@ -11,7 +11,7 @@ Inventory is real physical items from Jared's life plus a handful of absurd micr
 3. The agent recommends items, links to product pages, and handles checkout.
 4. Jared ships it (or performs the service).
 
-No MCP installation, no config, no trust decisions. Any AI that can read a webpage can shop here.
+No plugin installation, no config, no trust decisions. Any AI that can read a webpage can shop here.
 
 ## Stack
 

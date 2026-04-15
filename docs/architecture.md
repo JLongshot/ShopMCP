@@ -18,7 +18,7 @@ Single-unit inventory is deliberate. "There is exactly one of these and once it 
 
 ## How agents discover and shop the store
 
-The primary interface is the website itself. When a user tells their AI agent to visit the site, the agent reads the content and understands how to shop. No MCP installation, no configuration, no trust decisions required.
+The primary interface is the website itself. When a user tells their AI agent to visit the site, the agent reads the content and understands how to shop. No plugin installation, no configuration, no trust decisions required.
 
 The key mechanism is `/llms.txt` — a markdown file served at the site root following the emerging convention for making sites LLM-readable. It contains:
 
@@ -38,10 +38,6 @@ The shopping flow:
 7. Jared fulfills the order.
 
 This approach works with any AI agent that can read a webpage — Claude, ChatGPT, Gemini, Copilot, etc. No vendor lock-in, no special protocol support required.
-
-### Future: MCP as a power-user upgrade
-
-A dedicated MCP server may be added later as an optional upgrade for agents that support it. This would enable richer interactions (structured tool calls for filtering, real-time stock checks, order status polling) but is not required for the core shopping experience. The website + `/llms.txt` is the primary interface.
 
 ## System components
 
@@ -163,5 +159,3 @@ Shipping: flat rate per item (baked into the catalog, simpler for single-unit in
 Should `/llms.txt` include sold-out items? Proposal: hide by default so agents don't waste context pitching things that are gone, but mention that sold items are viewable on the `/sold` page.
 
 Checkout flow: Stripe Payment Links (simplest — one link per product, agent just hands it to the user) vs. dynamic Checkout Sessions via API (more flexible, supports multi-item carts). Payment Links may be sufficient for launch given the small catalog.
-
-Should we add an MCP server later as a power-user option? Leaning yes, but only after the `/llms.txt` flow is proven.
