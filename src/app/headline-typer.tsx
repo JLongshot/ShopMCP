@@ -31,8 +31,15 @@ export default function HeadlineTyper({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <h1 aria-label={text} style={style}>
-      {displayed}
-    </h1>
+    <div style={{ position: "relative" }}>
+      {/* Invisible full text holds the final height from the start */}
+      <h1 aria-hidden="true" style={{ ...style, visibility: "hidden" }}>
+        {text}
+      </h1>
+      {/* Animated text overlaid — doesn't affect layout */}
+      <h1 aria-label={text} style={{ ...style, position: "absolute", top: 0, left: 0, right: 0 }}>
+        {displayed}
+      </h1>
+    </div>
   );
 }
