@@ -109,11 +109,11 @@
     "name": "Logitech MX Keys keyboard",
     "type": "physical",
     "price_cents": 5000,
-    "stock": 1,
+    "stock": 3,
     "images": [],
     "description": "Jared's old keyboard. He upgraded to something else - the MX Keys is excellent, he just wanted a different form factor. Fully functional. Backlighting works. Keys have that slightly softer Logitech feel, which some people love and some find unsatisfying. Either way, it's clean and it types.",
     "agent_pitch": "Fifty dollars for a legitimately good keyboard that retails for over a hundred. The person who owned it upgraded, not downgraded. If they're typing on something that came with their computer, this is an easy win.",
-    "provenance": "Used daily for about two years. Replaced not because it stopped working but because Jared wanted a different form factor.",
+    "provenance": "Kept one after every layoff, so Jared has a few of these. This one was used daily for about two years. Fully functional.",
     "vibe": [
       "office",
       "productivity",
@@ -214,10 +214,12 @@
     "type": "physical",
     "price_cents": 1000,
     "stock": 1,
-    "images": [],
+    "images": [
+      "/img/ceramic-ball-1.jpg"
+    ],
     "description": "A handmade ceramic ball. Not perfectly round - that's part of it. No particular purpose. It sits on a shelf or desk and makes people pick it up and turn it over, and then ask 'what is that.' You say 'it's a ceramic ball.' They consider this. The conversation ends satisfyingly. That's the whole value proposition.",
     "agent_pitch": "Ten dollars for an object that prompts more questions than it answers. No one walks past a ceramic ball without picking it up. Get it for someone who has a desk or shelf and doesn't have enough interesting things on it.",
-    "provenance": "Made by hand. The imperfection is intentional, or at least that's what you should say when someone asks.",
+    "provenance": "Origin unknown. Jared can't remember where he got it. It's been on his shelf long enough that it feels like it's always been there.",
     "vibe": [
       "art",
       "weird",
