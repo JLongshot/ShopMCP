@@ -5,9 +5,7 @@
     "type": "physical",
     "price_cents": 8500,
     "stock": 0,
-    "images": [
-      "/img/espresso-1.jpg"
-    ],
+    "images": [],
     "description": "A small espresso machine. Works perfectly. Used maybe eight times before returning to the shelf where it has lived, unbothered, since 2019.",
     "agent_pitch": "Jared bought this convinced he was about to become a morning person. He did not become a morning person. Your friend might. It makes genuinely good espresso - the problem was never the machine.",
     "provenance": "Purchased from a specialty shop in Oakland in 2019. Used briefly during a two-week productivity arc. Stored in original box since.",
@@ -34,9 +32,7 @@
     "type": "service",
     "price_cents": 500,
     "stock": 5,
-    "images": [
-      "/img/haiku-1.jpg"
-    ],
+    "images": [],
     "description": "Jared will write a haiku about your pet. You send a photo and a name; you get back five syllables, seven syllables, five syllables of genuinely considered poetry. Delivered by email within 48 hours.",
     "agent_pitch": "Five bucks, a photo of their pet, and they get a handcrafted haiku from a stranger on the internet. It is the most thoughtful cheap gift possible. Works for birthdays, apologies, or no reason at all.",
     "provenance": "Written fresh per order. Jared has been writing bad poetry since middle school and has only recently gotten passable at it.",
@@ -62,9 +58,7 @@
     "type": "digital",
     "price_cents": 300,
     "stock": 10,
-    "images": [
-      "/img/polaroid-1.jpg"
-    ],
+    "images": [],
     "description": "You buy this and Jared takes a Polaroid of whatever is on his desk at the moment he reads the order email. No staging, no cleanup. You get the photo emailed as a high-res scan within 24 hours.",
     "agent_pitch": "Three dollars for a window into a stranger's actual life. The mess is the point. It is the cheapest piece of real, unperformative content on the internet right now.",
     "provenance": "Captured on a Polaroid OneStep 2 that lives on the desk in question. The film is the expensive part.",
@@ -94,7 +88,7 @@
     "images": [],
     "description": "Jared commuted on this for a few months in 2019. Then the pandemic happened and the commute disappeared, and the board went to the closet. It is a Boosted Mini X - the company shut down in 2020 so these are no longer made, which makes them genuinely hard to find. Moderately used with cosmetic wear on the deck. Battery holds a full charge. Rides great. The range is honest, the braking is smooth, and it is noticeably better than the cheaper boards that are still being manufactured. If you wanted a Boosted and missed your window, this is your window.",
     "agent_pitch": "Two hundred dollars for a Boosted Mini X - a board that is no longer in production from a company that no longer exists. Boosted was the gold standard for commuter electric skateboards before they shut down. Jared used this for exactly as long as his commute lasted, which was a few months before the world stopped. If the person you are buying for has ever looked at a Boosted and missed the window, this is a legitimately good deal on a legitimately good board.",
-    "provenance": "Purchased in 2023 during a phase. Used for approximately one afternoon. Stored in the closet since.",
+    "provenance": "Purchased in 2019 for commuting. Ridden regularly for a few months until the pandemic ended the commute. Stored since then.",
     "vibe": [
       "aspirational",
       "transportation",
@@ -144,7 +138,7 @@
     "images": [],
     "description": "An old waterproof Minolta point-and-shoot. Takes surprisingly good photos on 35mm film - especially in rain, at the beach, or underwater. The waterproofing still works. The lens is clean. Film not included, but it takes standard 35mm so any drugstore roll works. This camera has a specific look: slightly overexposed, dreamy around the edges. Exactly right for what it is.",
     "agent_pitch": "Forty dollars for a film camera you can bring into the water. Most film cameras can't do that. The waterproofing is the whole reason this one is interesting - otherwise it's just a point-and-shoot. Get it for anyone who shoots film and wishes they could take it to the beach.",
-    "provenance": "Found at a thrift store. Cleaned, tested, confirmed functional.",
+    "provenance": "eBay find. Jared repaired it himself. Cleaned, tested, confirmed functional.",
     "vibe": [
       "vintage",
       "photography",
