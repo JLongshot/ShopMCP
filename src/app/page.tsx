@@ -1,7 +1,6 @@
 import localFont from "next/font/local";
 import { JetBrains_Mono } from "next/font/google";
 import { LANDING_PROMPT } from "@/lib/prompt";
-import { isTestMode, BANNER_HEIGHT } from "@/lib/stripe-mode";
 import HeadlineTyper from "./headline-typer";
 import PromptCard from "./prompt-card";
 import AgentButtonRow from "./agent-button-row";
@@ -28,8 +27,6 @@ const MUTED = "#7a7d80";
 const GRID = "#dcdfe1";
 
 export default function Home() {
-  const bannerOffset = isTestMode() ? BANNER_HEIGHT : 0;
-
   return (
     <div
       className={`${mono.variable} ${display.variable}`}
@@ -61,11 +58,11 @@ export default function Home() {
         }
       `}</style>
 
-      {/* Fixed top bar — sits below the preview banner when in test mode */}
+      {/* Fixed top bar */}
       <header
         style={{
           position: "fixed",
-          top: bannerOffset,
+          top: 0,
           left: 0,
           right: 0,
           height: 48,

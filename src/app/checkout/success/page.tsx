@@ -1,8 +1,5 @@
 import Stripe from "stripe";
-import { isTestMode as getIsTestMode } from "@/lib/stripe-mode";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-const isTestMode = getIsTestMode();
+import { getStripe } from "@/lib/stripe";
 
 export default async function SuccessPage({
   searchParams,
@@ -17,6 +14,7 @@ export default async function SuccessPage({
 
   let session: Stripe.Checkout.Session;
   try {
+    const stripe = getStripe();
     session = await stripe.checkout.sessions.retrieve(session_id, {
       expand: ["line_items"],
     });
@@ -44,11 +42,6 @@ export default async function SuccessPage({
       <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 24 }}>
         Order reference: <code style={{ fontFamily: "monospace" }}>{shortId}</code>
       </p>
-      {isTestMode && (
-        <p style={{ marginTop: 48, fontSize: 12, color: "var(--muted)" }}>
-          Test mode — no real money moved.
-        </p>
-      )}
     </main>
   );
 }
