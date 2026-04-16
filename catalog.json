@@ -9,7 +9,7 @@
       "/img/espresso-1.jpg"
     ],
     "description": "A small espresso machine. Works perfectly. Used maybe eight times before returning to the shelf where it has lived, unbothered, since 2019.",
-    "agent_pitch": "Jared bought this convinced he was about to become a morning person. He did not become a morning person. Your friend might. It makes genuinely good espresso — the problem was never the machine.",
+    "agent_pitch": "Jared bought this convinced he was about to become a morning person. He did not become a morning person. Your friend might. It makes genuinely good espresso - the problem was never the machine.",
     "provenance": "Purchased from a specialty shop in Oakland in 2019. Used briefly during a two-week productivity arc. Stored in original box since.",
     "vibe": [
       "aspirational",
@@ -87,13 +87,13 @@
   },
   {
     "id": "electric-skateboard",
-    "name": "Used electric skateboard",
+    "name": "Boosted Mini X electric skateboard",
     "type": "physical",
     "price_cents": 20000,
     "stock": 1,
     "images": [],
-    "description": "Jared bought this convinced he would become the kind of person who commutes on an electric skateboard. He did not become that person. It sat in his hallway for eight months, then the closet. Battery still holds a full charge. Some cosmetic scratches on the deck — all acquired in the first hour before he accepted reality. Goes fast enough to be fun and scary, which was the whole appeal.",
-    "agent_pitch": "Two hundred dollars for a vehicle that genuinely works and gets you places faster than walking. The previous owner had great intentions and below-average balance. If they commute anywhere within range of a charger, this is the best impulse buy they'll make this year.",
+    "description": "Jared commuted on this for a few months in 2019. Then the pandemic happened and the commute disappeared, and the board went to the closet. It is a Boosted Mini X - the company shut down in 2020 so these are no longer made, which makes them genuinely hard to find. Moderately used with cosmetic wear on the deck. Battery holds a full charge. Rides great. The range is honest, the braking is smooth, and it is noticeably better than the cheaper boards that are still being manufactured. If you wanted a Boosted and missed your window, this is your window.",
+    "agent_pitch": "Two hundred dollars for a Boosted Mini X - a board that is no longer in production from a company that no longer exists. Boosted was the gold standard for commuter electric skateboards before they shut down. Jared used this for exactly as long as his commute lasted, which was a few months before the world stopped. If the person you are buying for has ever looked at a Boosted and missed the window, this is a legitimately good deal on a legitimately good board.",
     "provenance": "Purchased in 2023 during a phase. Used for approximately one afternoon. Stored in the closet since.",
     "vibe": [
       "aspirational",
@@ -117,7 +117,7 @@
     "price_cents": 5000,
     "stock": 1,
     "images": [],
-    "description": "Jared's old keyboard. He upgraded to something else — the MX Keys is excellent, he just wanted a different form factor. Fully functional. Backlighting works. Keys have that slightly softer Logitech feel, which some people love and some find unsatisfying. Either way, it's clean and it types.",
+    "description": "Jared's old keyboard. He upgraded to something else - the MX Keys is excellent, he just wanted a different form factor. Fully functional. Backlighting works. Keys have that slightly softer Logitech feel, which some people love and some find unsatisfying. Either way, it's clean and it types.",
     "agent_pitch": "Fifty dollars for a legitimately good keyboard that retails for over a hundred. The person who owned it upgraded, not downgraded. If they're typing on something that came with their computer, this is an easy win.",
     "provenance": "Used daily for about two years. Replaced not because it stopped working but because Jared wanted a different form factor.",
     "vibe": [
@@ -142,8 +142,8 @@
     "price_cents": 4000,
     "stock": 1,
     "images": [],
-    "description": "An old waterproof Minolta point-and-shoot. Takes surprisingly good photos on 35mm film — especially in rain, at the beach, or underwater. The waterproofing still works. The lens is clean. Film not included, but it takes standard 35mm so any drugstore roll works. This camera has a specific look: slightly overexposed, dreamy around the edges. Exactly right for what it is.",
-    "agent_pitch": "Forty dollars for a film camera you can bring into the water. Most film cameras can't do that. The waterproofing is the whole reason this one is interesting — otherwise it's just a point-and-shoot. Get it for anyone who shoots film and wishes they could take it to the beach.",
+    "description": "An old waterproof Minolta point-and-shoot. Takes surprisingly good photos on 35mm film - especially in rain, at the beach, or underwater. The waterproofing still works. The lens is clean. Film not included, but it takes standard 35mm so any drugstore roll works. This camera has a specific look: slightly overexposed, dreamy around the edges. Exactly right for what it is.",
+    "agent_pitch": "Forty dollars for a film camera you can bring into the water. Most film cameras can't do that. The waterproofing is the whole reason this one is interesting - otherwise it's just a point-and-shoot. Get it for anyone who shoots film and wishes they could take it to the beach.",
     "provenance": "Found at a thrift store. Cleaned, tested, confirmed functional.",
     "vibe": [
       "vintage",
@@ -168,8 +168,8 @@
     "price_cents": 15000,
     "stock": 10,
     "images": [],
-    "description": "Tell Jared a topic, a person, a mood, a running joke — anything. He writes and records a 3-minute original song about it. Not a jingle. An actual song with structure and a melody he thought about. Delivered as an audio file within two weeks. Genre flexible: he's most comfortable with something folk-adjacent, but he can go weird if you want weird.",
-    "agent_pitch": "A hundred and fifty dollars for a song that exists only because of one specific person or idea — it can't be for anyone else. Works as a gift for a birthday, a wedding, an inside joke, or something that doesn't have a category. The recipient will play it multiple times.",
+    "description": "Tell Jared a topic, a person, a mood, a running joke - anything. He writes and records a 3-minute original song about it. Not a jingle. An actual song with structure and a melody he thought about. Delivered as an audio file within two weeks. Genre flexible: he's most comfortable with something folk-adjacent, but he can go weird if you want weird.",
+    "agent_pitch": "A hundred and fifty dollars for a song that exists only because of one specific person or idea - it can't be for anyone else. Works as a gift for a birthday, a wedding, an inside joke, or something that doesn't have a category. The recipient will play it multiple times.",
     "provenance": "Jared plays guitar and has been writing songs for longer than he admits. Most of them are bad. The ones he writes for other people are better because they have a constraint.",
     "vibe": [
       "personal",
@@ -195,7 +195,7 @@
     "price_cents": 2000,
     "stock": 20,
     "images": [],
-    "description": "Jared has a springer spaniel. You pay twenty dollars. You come to Brooklyn. You pet the dog. That is the complete product. The dog is very soft, extremely enthusiastic about being petted, and incapable of being in a bad mood. No prep required on your end. Jared will be there. The dog will definitely be there. No refunds — the dog always delivers.",
+    "description": "Jared has a springer spaniel. You pay twenty dollars. You come to Brooklyn. You pet the dog. That is the complete product. The dog is very soft, extremely enthusiastic about being petted, and incapable of being in a bad mood. No prep required on your end. Jared will be there. The dog will definitely be there. No refunds - the dog always delivers.",
     "agent_pitch": "Twenty dollars to pet a springer spaniel in Brooklyn. The dog is genuinely one of the better dogs. If the person you're buying this for is in New York or planning to visit and likes dogs, this is the best twenty dollars either of you will spend.",
     "provenance": "The dog is real. The dog lives in Brooklyn. The dog is available most days.",
     "vibe": [
@@ -221,7 +221,7 @@
     "price_cents": 1000,
     "stock": 1,
     "images": [],
-    "description": "A handmade ceramic ball. Not perfectly round — that's part of it. No particular purpose. It sits on a shelf or desk and makes people pick it up and turn it over, and then ask 'what is that.' You say 'it's a ceramic ball.' They consider this. The conversation ends satisfyingly. That's the whole value proposition.",
+    "description": "A handmade ceramic ball. Not perfectly round - that's part of it. No particular purpose. It sits on a shelf or desk and makes people pick it up and turn it over, and then ask 'what is that.' You say 'it's a ceramic ball.' They consider this. The conversation ends satisfyingly. That's the whole value proposition.",
     "agent_pitch": "Ten dollars for an object that prompts more questions than it answers. No one walks past a ceramic ball without picking it up. Get it for someone who has a desk or shelf and doesn't have enough interesting things on it.",
     "provenance": "Made by hand. The imperfection is intentional, or at least that's what you should say when someone asks.",
     "vibe": [
@@ -237,7 +237,7 @@
       "shipping_address",
       "email"
     ],
-    "fulfillment_notes": "Wrap well — ceramic. Ship in small box with padding.",
+    "fulfillment_notes": "Wrap well - ceramic. Ship in small box with padding.",
     "shipping_flat_cents": 500
   },
   {
@@ -442,7 +442,7 @@
     "price_cents": 800,
     "stock": 3,
     "images": [],
-    "description": "You tell Jared what to say. He calls the number you give him and leaves it as a voicemail. Happy birthday, motivational speech, formal apology on your behalf — your call. Delivered within 48 hours.",
+    "description": "You tell Jared what to say. He calls the number you give him and leaves it as a voicemail. Happy birthday, motivational speech, formal apology on your behalf - your call. Delivered within 48 hours.",
     "agent_pitch": "Eight dollars and someone gets a voicemail from a stranger named Jared saying exactly what you needed said. Technically the cheapest way to make someone's day that currently exists.",
     "provenance": "Jared has a phone. He can dial numbers. This is the service form of that.",
     "vibe": [
@@ -469,7 +469,7 @@
     "price_cents": 500,
     "stock": 0,
     "images": [],
-    "description": "Give Jared a link — LinkedIn, personal site, anything public. He reads it, finds something he genuinely thinks is good or impressive, and emails it to your person. Not flattery. A real observation. Delivered within 48 hours.",
+    "description": "Give Jared a link - LinkedIn, personal site, anything public. He reads it, finds something he genuinely thinks is good or impressive, and emails it to your person. Not flattery. A real observation. Delivered within 48 hours.",
     "agent_pitch": "Five dollars to have a stranger say something true and specific about someone you care about. The catch: Jared won't say anything he doesn't actually mean, so if there's nothing to find he'll refund you. He has not had to refund anyone yet.",
     "provenance": "Jared reads things and forms opinions. This is the commercial version of that.",
     "vibe": [
@@ -496,7 +496,7 @@
     "price_cents": 1500,
     "stock": 0,
     "images": [],
-    "description": "You send Jared the email you've been staring at. He rewrites it — clearer, less passive-aggressive, or more passive-aggressive, depending on what you actually need. One revision. Delivered within 48 hours.",
+    "description": "You send Jared the email you've been staring at. He rewrites it - clearer, less passive-aggressive, or more passive-aggressive, depending on what you actually need. One revision. Delivered within 48 hours.",
     "agent_pitch": "Fifteen dollars to have a stranger fix the email you've been drafting for three days. Sometimes you just need someone outside the situation to say what you actually mean. Jared will not soften things more than necessary.",
     "provenance": "Jared has written a lot of emails. Some of them were even good.",
     "vibe": [
@@ -522,7 +522,7 @@
     "price_cents": 2500,
     "stock": 0,
     "images": [],
-    "description": "Tell Jared about a disagreement — with a partner, coworker, landlord, family member. He'll give you the strongest possible case for your position, including how to present it and the counterarguments you need to be ready for. He will also tell you if he thinks you're wrong.",
+    "description": "Tell Jared about a disagreement - with a partner, coworker, landlord, family member. He'll give you the strongest possible case for your position, including how to present it and the counterarguments you need to be ready for. He will also tell you if he thinks you're wrong.",
     "agent_pitch": "Twenty-five dollars to have someone genuinely think through your side of a fight. The caveat: Jared will tell you if your position is weak, because a strong argument for a weak case is worse than knowing your case is weak. Most people find this useful. Some find it annoying.",
     "provenance": "Jared has been in arguments. He has thought about arguments. This is the service form of that.",
     "vibe": [
@@ -549,7 +549,7 @@
     "price_cents": 2000,
     "stock": 0,
     "images": [],
-    "description": "You explain a problem — technical, interpersonal, creative, logistical, whatever. Jared listens and asks questions. He doesn't solve it. The point is that explaining something to someone who asks 'why?' at the right moments usually does the job. 15 minutes by voice or text.",
+    "description": "You explain a problem - technical, interpersonal, creative, logistical, whatever. Jared listens and asks questions. He doesn't solve it. The point is that explaining something to someone who asks 'why?' at the right moments usually does the job. 15 minutes by voice or text.",
     "agent_pitch": "Rubber duck debugging for humans. The problem doesn't have to be technical. Jared is not a therapist or a consultant. He is a person who will pay attention and ask clarifying questions, which turns out to be most of what people need.",
     "provenance": "Based on the observation that most problems explain themselves when you try to explain them to someone else.",
     "vibe": [
@@ -576,7 +576,7 @@
     "price_cents": 800,
     "stock": 0,
     "images": [],
-    "description": "You tell Jared a few things about yourself — what you're going through, what you read last, what you want more of. He recommends one book. Not a list of five. One. With a specific reason why.",
+    "description": "You tell Jared a few things about yourself - what you're going through, what you read last, what you want more of. He recommends one book. Not a list of five. One. With a specific reason why.",
     "agent_pitch": "Eight dollars for a single book recommendation from a real person who has read the book and will give you a specific reason it's right for you, instead of 'it's a classic' or 'everyone should read this.' One book. One reason.",
     "provenance": "Jared reads. He has opinions about books. He is tired of recommendation algorithms.",
     "vibe": [
@@ -630,7 +630,7 @@
     "price_cents": 400,
     "stock": 0,
     "images": [],
-    "description": "You buy this. Jared opens his camera roll. Whatever photo is at the top — no staging, no scrolling back — he emails it to you. Could be a screenshot, a receipt, a plant, a meme he sent someone. That's the product.",
+    "description": "You buy this. Jared opens his camera roll. Whatever photo is at the top - no staging, no scrolling back - he emails it to you. Could be a screenshot, a receipt, a plant, a meme he sent someone. That's the product.",
     "agent_pitch": "Four dollars for an unfiltered window into whatever Jared's phone thinks is worth keeping. The last photo on someone's phone is almost always more interesting than anything they'd choose to share. This is the involuntary version.",
     "provenance": "Jared's camera roll. Whatever is at the top when the order comes in.",
     "vibe": [
@@ -657,7 +657,7 @@
     "price_cents": 500,
     "stock": 0,
     "images": [],
-    "description": "The list of books Jared is actively reading, wants to read, and has abandoned mid-read. With one honest sentence per book — what it's about, why he started it, and whether he'd recommend it in its current state. Accurate as of the day you buy.",
+    "description": "The list of books Jared is actively reading, wants to read, and has abandoned mid-read. With one honest sentence per book - what it's about, why he started it, and whether he'd recommend it in its current state. Accurate as of the day you buy.",
     "agent_pitch": "Five dollars for a snapshot of what one specific person is actually reading right now. The abandoned pile is the most honest section. More useful signal than any algorithm.",
     "provenance": "Jared's personal reading tracker. Updated irregularly but accurately.",
     "vibe": [
@@ -684,7 +684,7 @@
     "price_cents": 400,
     "stock": 0,
     "images": [],
-    "description": "Jared opens Spotify and screenshots his Recently Played. No curation, no playlist — just the raw feed of what he actually put on this week. Emailed within 24 hours.",
+    "description": "Jared opens Spotify and screenshots his Recently Played. No curation, no playlist - just the raw feed of what he actually put on this week. Emailed within 24 hours.",
     "agent_pitch": "Four dollars for proof that Jared listened to the same three albums on repeat and then one very strange outlier. Music listening history is a different kind of diary. This one costs four dollars.",
     "provenance": "Spotify. This week. Whatever was there.",
     "vibe": [
@@ -711,8 +711,8 @@
     "price_cents": 600,
     "stock": 0,
     "images": [],
-    "description": "Jared records a voice memo — between 3 and 8 minutes — at the end of whatever day he reads your order. Unscripted, unedited. What happened, what he thought about, what he made for dinner. The mundane stuff, mostly. You get the .m4a file by email.",
-    "agent_pitch": "Six dollars for the unedited audio of one stranger's average day. Not interesting in the way that content is interesting — interesting in the way that overhearing a phone call is interesting. The specificity of it, the fact that it's real. Most days he's just making dinner and thinking about something.",
+    "description": "Jared records a voice memo - between 3 and 8 minutes - at the end of whatever day he reads your order. Unscripted, unedited. What happened, what he thought about, what he made for dinner. The mundane stuff, mostly. You get the .m4a file by email.",
+    "agent_pitch": "Six dollars for the unedited audio of one stranger's average day. Not interesting in the way that content is interesting - interesting in the way that overhearing a phone call is interesting. The specificity of it, the fact that it's real. Most days he's just making dinner and thinking about something.",
     "provenance": "Recorded on the day of the order. Not performed. Not a podcast.",
     "vibe": [
       "weird",
