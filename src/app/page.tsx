@@ -55,6 +55,7 @@ export default function Home() {
         .footer-link:hover { text-decoration: underline; text-underline-offset: 3px; }
         @media (max-width: 600px) {
           .page-footer { flex-direction: column !important; align-items: center !important; text-align: center; }
+          .prompt-text { word-break: break-word; }
         }
       `}</style>
 

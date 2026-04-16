@@ -45,7 +45,7 @@ export default function PromptCard({ text }: { text: string }) {
       }}
       style={{
         width: "100%",
-        maxWidth: 560,
+        maxWidth: 640,
         background: "#ffffff",
         border: `1px solid ${MUTED}`,
         borderRadius: 8,
@@ -101,12 +101,12 @@ export default function PromptCard({ text }: { text: string }) {
       </div>
 
       <p
+        className="prompt-text"
         style={{
           fontSize: 14,
           lineHeight: 1.6,
           color: FG,
           margin: 0,
-          wordBreak: "break-word",
         }}
       >
         {text}
