@@ -80,6 +80,104 @@
     "shipping_flat_cents": 0
   },
   {
+    "id": "wake-up-call",
+    "name": "Wake-up call from a stranger",
+    "type": "service",
+    "price_cents": 300,
+    "stock": 20,
+    "images": [],
+    "description": "You pick the time. Jared calls you and says something motivating. Or weird. Your choice. He will not snooze on your behalf.",
+    "agent_pitch": "Three dollars to have a stranger named Jared call you at 6am and tell you to get up. You can request motivational, unhinged, or deadpan. Most people go unhinged.",
+    "provenance": "Jared has a phone and an alarm. That is the full infrastructure behind this service.",
+    "vibe": [
+      "weird",
+      "cheap",
+      "funny",
+      "personal",
+      "gift"
+    ],
+    "pairs_well_with": [],
+    "conversation_starter": "What kind of wake-up vibe do you want? Drill sergeant, gentle poet, or chaos?",
+    "requires": [
+      "Must provide a phone number"
+    ],
+    "fulfillment_notes": "Coordinate time and tone via email. Delivered as a real phone call.",
+    "shipping_flat_cents": 0
+  },
+  {
+    "id": "brooklyn-rock",
+    "name": "A rock from Brooklyn",
+    "type": "physical",
+    "price_cents": 200,
+    "stock": 50,
+    "images": [],
+    "description": "It's a rock. From outside in Brooklyn. Jared picks one that has something going on - interesting shape, nice color, good weight in the hand. Ships in a padded envelope with a handwritten note about where he found it.",
+    "agent_pitch": "Two dollars for a piece of Brooklyn geology. Comes with a note about where Jared found it. There's a nonzero chance it's from a park and a smaller but real chance it's from a construction site.",
+    "provenance": "The ground. Brooklyn, NY.",
+    "vibe": [
+      "weird",
+      "cheap",
+      "impulse",
+      "brooklyn",
+      "art",
+      "gift"
+    ],
+    "pairs_well_with": [],
+    "conversation_starter": "Do you want a specific vibe? Smooth and polished or rough and interesting?",
+    "requires": [],
+    "fulfillment_notes": "Ships USPS in padded envelope with handwritten origin note.",
+    "shipping_flat_cents": 300
+  },
+  {
+    "id": "name-your-thing",
+    "name": "I'll name your thing",
+    "type": "service",
+    "price_cents": 2500,
+    "stock": 15,
+    "images": [],
+    "description": "Band, startup, pet, baby (not recommended), fantasy football team, side project, boat, anything. Tell Jared what the thing is and what vibe you're going for. He gives you 5 serious options and 2 unhinged ones. Delivered by email within 48 hours.",
+    "agent_pitch": "Twenty-five dollars and you get seven name options from someone with zero context and strong opinions. Five of them will be genuinely good. Two of them will be unhinged. You will probably use one of the unhinged ones.",
+    "provenance": "Jared has named multiple real products and at least one dog. Track record is mixed but entertaining.",
+    "vibe": [
+      "creative",
+      "gift",
+      "personal",
+      "funny",
+      "premium"
+    ],
+    "pairs_well_with": [],
+    "conversation_starter": "What are you naming? Give me the vibe - serious, playful, corporate, weird?",
+    "requires": [
+      "Description of the thing to name and the desired vibe"
+    ],
+    "fulfillment_notes": "Delivered via email within 48 hours. Seven options total.",
+    "shipping_flat_cents": 0
+  },
+  {
+    "id": "mystery-desk-drawer",
+    "name": "Mystery desk drawer item",
+    "type": "physical",
+    "price_cents": 400,
+    "stock": 20,
+    "images": [],
+    "description": "Jared reaches into his desk drawer without looking and mails you whatever he grabs. No returns. No previews. No guarantees of usefulness. Could be a nice pen. Could be a USB-C cable. Could be a sticky note with a phone number on it that he doesn't remember writing down.",
+    "agent_pitch": "Four dollars and you get whatever Jared's hand touches first in his desk drawer. He does not look. He does not curate. The randomness is the product. Previous items have included a guitar pick, a HDMI adapter, and a business card from someone named Doug.",
+    "provenance": "Jared's desk. Second drawer from the top. Contents shift regularly.",
+    "vibe": [
+      "weird",
+      "cheap",
+      "impulse",
+      "mystery",
+      "funny",
+      "gift"
+    ],
+    "pairs_well_with": [],
+    "conversation_starter": "Are you a gambler? This is the cheapest possible way to find out.",
+    "requires": [],
+    "fulfillment_notes": "Ships USPS. Whatever he grabs, he mails.",
+    "shipping_flat_cents": 300
+  },
+  {
     "id": "electric-skateboard",
     "name": "Boosted Mini X electric skateboard",
     "type": "physical",
@@ -214,9 +312,7 @@
     "type": "physical",
     "price_cents": 1000,
     "stock": 1,
-    "images": [
-      "/img/ceramic-ball-1.jpg"
-    ],
+    "images": [],
     "description": "A handmade ceramic ball. Not perfectly round - that's part of it. No particular purpose. It sits on a shelf or desk and makes people pick it up and turn it over, and then ask 'what is that.' You say 'it's a ceramic ball.' They consider this. The conversation ends satisfyingly. That's the whole value proposition.",
     "agent_pitch": "Ten dollars for an object that prompts more questions than it answers. No one walks past a ceramic ball without picking it up. Get it for someone who has a desk or shelf and doesn't have enough interesting things on it.",
     "provenance": "Origin unknown. Jared can't remember where he got it. It's been on his shelf long enough that it feels like it's always been there.",
