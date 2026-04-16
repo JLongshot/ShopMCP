@@ -2,8 +2,7 @@ import Stripe from "stripe";
 import { Resend } from "resend";
 import { getProduct } from "@/lib/catalog";
 import { decrementStock, markEventProcessed } from "@/lib/inventory";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+import { getStripe } from "@/lib/stripe";
 
 // Raw body required for signature verification — disable Next.js body parsing
 export const runtime = "nodejs";
@@ -20,7 +19,7 @@ export async function POST(req: Request) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
+    event = getStripe().webhooks.constructEvent(rawBody, signature, webhookSecret);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Signature verification failed";
     console.error("[webhook] Signature verification failed:", message);

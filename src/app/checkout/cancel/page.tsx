@@ -1,7 +1,4 @@
 import Link from "next/link";
-import { isTestMode as getIsTestMode } from "@/lib/stripe-mode";
-
-const isTestMode = getIsTestMode();
 
 export default function CancelPage() {
   return (
@@ -24,11 +21,6 @@ export default function CancelPage() {
       >
         Back to The Agent Catalog
       </Link>
-      {isTestMode && (
-        <p style={{ marginTop: 48, fontSize: 12, color: "var(--muted)" }}>
-          Test mode — no real money moved.
-        </p>
-      )}
     </main>
   );
 }

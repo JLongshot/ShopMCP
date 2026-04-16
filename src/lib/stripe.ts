@@ -2,7 +2,27 @@ import Stripe from "stripe";
 import { getProduct } from "@/lib/catalog";
 import { getStock } from "@/lib/inventory";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+/**
+ * Lazy Stripe client — only constructed on first use so modules that import
+ * from this file don't blow up at load time when STRIPE_SECRET_KEY is missing
+ * (common in preview/dev environments). The error surfaces at checkout time
+ * with a clear message instead of an opaque module-load crash.
+ */
+let _stripe: Stripe | undefined;
+
+export function getStripe(): Stripe {
+  if (_stripe) return _stripe;
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) {
+    throw new Error(
+      "STRIPE_SECRET_KEY is not set. Add it to your Vercel environment variables " +
+        "(Dashboard → Settings → Environment Variables). Use your sk_test_… key " +
+        "for test mode."
+    );
+  }
+  _stripe = new Stripe(key);
+  return _stripe;
+}
 
 export async function createCheckoutSession(
   productId: string,
@@ -58,6 +78,7 @@ export async function createCheckoutSession(
     }
   }
 
+  const stripe = getStripe();
   const session = await stripe.checkout.sessions.create(sessionParams);
   return { url: session.url!, session_id: session.id };
 }

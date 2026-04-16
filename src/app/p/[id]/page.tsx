@@ -2,11 +2,8 @@ import { notFound, redirect } from "next/navigation";
 import { getAllProducts, getProduct } from "@/lib/catalog";
 import { getStock } from "@/lib/inventory";
 import { createCheckoutSession } from "@/lib/stripe";
-import { isTestMode as getIsTestMode } from "@/lib/stripe-mode";
 import { getSiteUrl } from "@/lib/url";
 import { AgentPitchToggle } from "./agent-pitch-toggle";
-
-const isTestMode = getIsTestMode();
 
 export function generateStaticParams() {
   return getAllProducts().map((p) => ({ id: p.id }));
@@ -250,11 +247,6 @@ export default async function ProductPage({
           >
             Sold out
           </button>
-        )}
-        {isTestMode && inStock && (
-          <p style={{ marginTop: 8, fontSize: 12, color: "var(--muted)", textAlign: "center" }}>
-            Test mode — no real payment will be taken.
-          </p>
         )}
       </div>
 
