@@ -204,13 +204,15 @@ export default async function ProductPage({
           <form
             action={async () => {
               "use server";
+              let checkoutUrl: string;
               try {
                 const { url } = await createCheckoutSession(product.id, getSiteUrl());
-                redirect(url);
+                checkoutUrl = url;
               } catch (err) {
                 console.error("[checkout] Session creation failed:", err);
                 redirect(`/p/${product.id}?checkout_error=1`);
               }
+              redirect(checkoutUrl);
             }}
           >
             <button
