@@ -1,4 +1,5 @@
 import { getProduct } from "@/lib/catalog";
+import { getStock } from "@/lib/inventory";
 import { getSiteUrl } from "@/lib/url";
 
 export async function GET(
@@ -13,6 +14,7 @@ export async function GET(
     return new Response("Product not found.\n", { status: 404 });
   }
 
+  const stock = await getStock(id);
   const price = `$${(product.price_cents / 100).toFixed(2)}`;
   const shipping =
     product.shipping_flat_cents > 0
@@ -33,7 +35,7 @@ export async function GET(
 
 - **Type:** ${product.type}
 - **Price:** ${price}${shipping}
-- **Stock:** ${product.stock}
+- **Stock:** ${stock}
 - **Vibes:** ${product.vibe.join(", ")}
 - **Images:** ${images}
 - **Page:** ${baseUrl}/p/${product.id}
@@ -49,7 +51,9 @@ ${product.description}
   return new Response(markdown, {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
-      "Cache-Control": "public, max-age=3600",
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
     },
   });
 }

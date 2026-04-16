@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getSiteUrl } from "@/lib/url";
+import { isTestMode, BANNER_HEIGHT } from "@/lib/stripe-mode";
+import { TestModeBanner } from "./test-mode-banner";
 import "./globals.css";
 
 const baseUrl = getSiteUrl();
@@ -19,6 +21,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const bannerPad = isTestMode() ? BANNER_HEIGHT : 0;
+
   return (
     <html lang="en">
       <head>
@@ -29,7 +33,10 @@ export default function RootLayout({
           title="LLM-readable catalog and shopping instructions"
         />
       </head>
-      <body>{children}</body>
+      <body style={{ paddingTop: bannerPad }}>
+        <TestModeBanner />
+        {children}
+      </body>
     </html>
   );
 }

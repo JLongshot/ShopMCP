@@ -1,19 +1,26 @@
 import { getAllProducts } from "@/lib/catalog";
+import { getStock } from "@/lib/inventory";
 import { getSiteUrl } from "@/lib/url";
 
 function formatPrice(cents: number): string {
   return `$${(cents / 100).toFixed(2)}`;
 }
 
-function buildProductSection(baseUrl: string): string {
-  const products = getAllProducts().filter((p) => p.stock > 0);
+async function buildProductSection(baseUrl: string): Promise<string> {
+  const withStock = await Promise.all(
+    getAllProducts().map(async (p) => ({
+      product: p,
+      stock: await getStock(p.id),
+    }))
+  );
+  const products = withStock.filter(({ stock }) => stock > 0);
 
   if (products.length === 0) {
     return "_No products are in stock right now._";
   }
 
   return products
-    .map((p) => {
+    .map(({ product: p }) => {
       const page = `${baseUrl}/p/${p.id}`;
       return [
         `### [${p.name}](${page}) — ${formatPrice(p.price_cents)}`,
@@ -26,9 +33,9 @@ function buildProductSection(baseUrl: string): string {
     .join("\n\n");
 }
 
-function buildLlmsTxt(): string {
+async function buildLlmsTxt(): Promise<string> {
   const baseUrl = getSiteUrl();
-  const products = buildProductSection(baseUrl);
+  const products = await buildProductSection(baseUrl);
 
   return `# The Agent Catalog
 
@@ -80,7 +87,8 @@ The Agent Catalog is a thought experiment packaged as a real store: what commerc
 }
 
 export async function GET() {
-  return new Response(buildLlmsTxt(), {
+  const body = await buildLlmsTxt();
+  return new Response(body, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "no-cache, no-store, must-revalidate",

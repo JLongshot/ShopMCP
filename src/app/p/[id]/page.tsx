@@ -1,10 +1,12 @@
 import { notFound, redirect } from "next/navigation";
 import { getAllProducts, getProduct } from "@/lib/catalog";
+import { getStock } from "@/lib/inventory";
 import { createCheckoutSession } from "@/lib/stripe";
+import { isTestMode as getIsTestMode } from "@/lib/stripe-mode";
 import { getSiteUrl } from "@/lib/url";
 import { AgentPitchToggle } from "./agent-pitch-toggle";
 
-const isTestMode = process.env.STRIPE_SECRET_KEY?.startsWith("sk_test_") ?? false;
+const isTestMode = getIsTestMode();
 
 export function generateStaticParams() {
   return getAllProducts().map((p) => ({ id: p.id }));
@@ -34,9 +36,12 @@ export default async function ProductPage({
   const { id } = await params;
   const { checkout_error } = await searchParams;
   const product = getProduct(id);
-  if (!product || product.stock === 0) notFound();
+  if (!product) notFound();
 
-  const inStock = product.stock > 0;
+  const stock = await getStock(id);
+  if (stock === 0) notFound();
+
+  const inStock = stock > 0;
   const hasCheckoutError = checkout_error === "1";
 
   return (

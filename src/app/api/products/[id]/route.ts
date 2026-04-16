@@ -1,4 +1,5 @@
 import { getProduct, getAllProducts } from "@/lib/catalog";
+import { getStock } from "@/lib/inventory";
 
 export function generateStaticParams() {
   return getAllProducts().map((p) => ({ id: p.id }));
@@ -11,7 +12,12 @@ export async function GET(
   const { id } = await params;
   const product = getProduct(id);
 
-  if (!product || product.stock === 0) {
+  if (!product) {
+    return Response.json({ error: "Not found" }, { status: 404 });
+  }
+
+  const stock = await getStock(id);
+  if (stock === 0) {
     return Response.json({ error: "Not found" }, { status: 404 });
   }
 
@@ -25,8 +31,15 @@ export async function GET(
         description: product.description,
         vibe: product.vibe,
         agent_pitch: product.agent_pitch,
+        stock,
       },
     },
-    { headers: { "Cache-Control": "public, max-age=0, must-revalidate" } }
+    {
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    }
   );
 }
