@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import { JetBrains_Mono } from "next/font/google";
 import { LANDING_PROMPT } from "@/lib/prompt";
+import { getAllProducts } from "@/lib/catalog";
 import HeadlineTyper from "./headline-typer";
 import PromptCard from "./prompt-card";
 import AgentButtonRow from "./agent-button-row";
@@ -27,6 +28,8 @@ const MUTED = "#7a7d80";
 const GRID = "#dcdfe1";
 
 export default function Home() {
+  const stockCount = getAllProducts().filter((p) => p.stock > 0).length;
+
   return (
     <div
       className={`${mono.variable} ${display.variable}`}
@@ -127,6 +130,23 @@ export default function Home() {
             }}
           />
 
+          {/* Subheading */}
+          <p
+            style={{
+              marginTop: 24,
+              marginBottom: 0,
+              fontSize: 15,
+              lineHeight: 1.5,
+              color: MUTED,
+              maxWidth: 560,
+              textAlign: "center",
+              fontFamily: "var(--font-mono)",
+            }}
+          >
+            {stockCount} items for sale. No product grid, no filters, no browse.{" "}
+            Paste the prompt, and your AI does the shopping.
+          </p>
+
           {/* Primary CTAs — large filled buttons that deep-link into Claude / ChatGPT */}
           <AgentButtonRow />
 
@@ -147,6 +167,26 @@ export default function Home() {
           {/* Prompt card — secondary option for any other agent */}
           <PromptCard text={LANDING_PROMPT} />
         </section>
+
+        {/* Activity line */}
+        <div
+          style={{
+            padding: "0 16px 8px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <span
+            style={{
+              fontSize: 12,
+              letterSpacing: "0.04em",
+              color: MUTED,
+              fontFamily: "var(--font-mono)",
+            }}
+          >
+            Now open. First orders shipping this week.
+          </span>
+        </div>
 
         {/* Seller CTA — standalone row above the copyright footer */}
         <div
