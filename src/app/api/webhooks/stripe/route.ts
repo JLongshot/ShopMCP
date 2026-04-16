@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { Resend } from "resend";
 import { getProduct } from "@/lib/catalog";
+import { decrementStock, markEventProcessed } from "@/lib/inventory";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -30,6 +31,15 @@ export async function POST(req: Request) {
     return Response.json({ received: true });
   }
 
+  // Idempotency: only process each event.id once. Stripe retries delivery
+  // until it gets a 2xx; without this, a transient email failure would
+  // cause duplicate fulfillment on the retry.
+  const isFirstDelivery = await markEventProcessed(event.id);
+  if (!isFirstDelivery) {
+    console.log(`[webhook] duplicate event ${event.id}, skipping`);
+    return Response.json({ received: true, duplicate: true });
+  }
+
   const session = event.data.object as Stripe.Checkout.Session;
   const productId = session.metadata?.product_id;
   const productName = session.metadata?.product_name ?? "Unknown product";
@@ -40,6 +50,17 @@ export async function POST(req: Request) {
 
   const product = productId ? getProduct(productId) : null;
   const productType = product?.type ?? "digital";
+
+  // Decrement inventory before notifications — if the decrement fails we
+  // still want to email the operator so Jared can reconcile manually.
+  if (productId) {
+    const remaining = await decrementStock(productId);
+    if (remaining !== null) {
+      console.log(
+        `[webhook] decremented stock:${productId} → ${remaining}`
+      );
+    }
+  }
 
   // Build shipping block for physical items (SDK v22: shipping in collected_information)
   const shippingDetails = session.collected_information?.shipping_details;

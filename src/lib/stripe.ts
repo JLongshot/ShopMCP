@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { getProduct } from "@/lib/catalog";
+import { getStock } from "@/lib/inventory";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -8,7 +9,12 @@ export async function createCheckoutSession(
   origin: string
 ): Promise<{ url: string; session_id: string }> {
   const product = getProduct(productId);
-  if (!product || product.stock === 0) {
+  if (!product) {
+    throw new Error("Product not found");
+  }
+
+  const stock = await getStock(productId);
+  if (stock === 0) {
     throw new Error("Product not found or out of stock");
   }
 

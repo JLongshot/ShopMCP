@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { isTestMode as getIsTestMode } from "@/lib/stripe-mode";
 
-const isTestMode = process.env.STRIPE_SECRET_KEY?.startsWith("sk_test_") ?? false;
+const isTestMode = getIsTestMode();
 
 export default function CancelPage() {
   return (

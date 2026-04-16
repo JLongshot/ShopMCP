@@ -1,7 +1,8 @@
 import Stripe from "stripe";
+import { isTestMode as getIsTestMode } from "@/lib/stripe-mode";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-const isTestMode = process.env.STRIPE_SECRET_KEY?.startsWith("sk_test_") ?? false;
+const isTestMode = getIsTestMode();
 
 export default async function SuccessPage({
   searchParams,
