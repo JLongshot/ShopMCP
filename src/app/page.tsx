@@ -117,7 +117,7 @@ export default function Home() {
         >
           {/* Headline — GT Ultra, sentence case, types in on load */}
           <HeadlineTyper
-            text="The shop your AI reads for you."
+            text={"The shop your\nAI reads for you."}
             style={{
               fontSize: "clamp(40px, 7vw, 80px)",
               fontWeight: 500,
