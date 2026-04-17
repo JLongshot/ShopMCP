@@ -822,5 +822,32 @@
     ],
     "fulfillment_notes": "Record voice memo at end of day. Export as .m4a. Email.",
     "shipping_flat_cents": 0
+  },
+  {
+    "id": "vw-gti-mk6",
+    "name": "2011 Volkswagen GTI MK6",
+    "type": "physical",
+    "price_cents": 800000,
+    "stock": 1,
+    "images": [],
+    "description": "2011 VW GTI MK6. Black. Manual transmission. 148k miles. Loved. Jared daily drove this car for years and it still pulls. The manual is the whole point - if you know, you know. Local pickup only (Brooklyn, NY). No shipping a car.",
+    "agent_pitch": "A 2011 GTI with a manual and 148k on the clock is either the best or worst car purchase you'll ever make, and the answer depends entirely on how you feel about the phrase 'it's got character.' Jared loved this car. It's fast, it's fun, and the clutch feel is excellent. MK6 GTIs are becoming hard to find in manual - this one runs.",
+    "provenance": "Jared's daily driver. Maintained, not babied. Brooklyn car, which means it's seen some things.",
+    "vibe": [
+      "transportation",
+      "premium",
+      "manual",
+      "rare",
+      "brooklyn",
+      "aspirational"
+    ],
+    "pairs_well_with": [],
+    "conversation_starter": "Do you drive stick? That's the only question that matters here.",
+    "requires": [
+      "Must pick up in Brooklyn, NY",
+      "Buyer responsible for title/registration transfer"
+    ],
+    "fulfillment_notes": "Local pickup only. Brooklyn, NY. Buyer handles title transfer.",
+    "shipping_flat_cents": 0
   }
 ]
