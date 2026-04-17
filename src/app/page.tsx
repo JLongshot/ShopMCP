@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect, useLayoutEffect } from "react
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import ViewerToggle from "./viewer-toggle";
 import PageContent from "./page-content";
+import { useIsCoarse } from "./use-is-coarse";
 
 const display = Space_Grotesk({
   subsets: ["latin"],
@@ -57,6 +58,15 @@ function gridBg(gridColor: string) {
 
 export default function Home() {
   const [mode, setMode] = useState<Mode>("human");
+  const isCoarse = useIsCoarse();
+
+  if (isCoarse) {
+    return <MobileShell mode={mode} setMode={setMode} />;
+  }
+  return <DesktopShell mode={mode} setMode={setMode} />;
+}
+
+function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => void }) {
   const t = THEME[mode];
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -296,18 +306,17 @@ export default function Home() {
           .prompt-text { word-break: break-word; }
         }
         @keyframes wipeInLayer {
-          from { clip-path: circle(0% at 50% 50%); }
-          to { clip-path: circle(150% at 50% 50%); }
+          from { clip-path: circle(0px at 50vw 50vh); }
+          to { clip-path: circle(9999px at 50vw 50vh); }
         }
       `}</style>
 
-      {/* Toggle — floats above both layers */}
+      {/* Toggle — fixed top-right where the cart count used to sit */}
       <div
         style={{
           position: "fixed",
-          top: 10,
-          left: "50%",
-          transform: "translateX(-50%)",
+          top: 8,
+          right: 12,
           zIndex: 200,
         }}
       >
@@ -380,6 +389,75 @@ export default function Home() {
             </div>
           )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Mobile / coarse-pointer shell ─────────────────────────────────────
+// Single-layer render. No spotlight, no grid stacking, no clip-path wipe —
+// just a 200ms opacity crossfade between modes. Toggle stays fully functional.
+function MobileShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => void }) {
+  const t = THEME[mode];
+  const [visibleMode, setVisibleMode] = useState<Mode>(mode);
+  const [fading, setFading] = useState(false);
+
+  function handleToggle(newMode: Mode) {
+    if (newMode === mode) return;
+    setFading(true);
+    setMode(newMode);
+    setTimeout(() => {
+      setVisibleMode(newMode);
+      setFading(false);
+    }, 200);
+  }
+
+  return (
+    <div
+      className={`${mono.variable} ${display.variable} ${body.variable}`}
+      style={{
+        fontFamily: "var(--font-body)",
+        ["--bg" as string]: t.bg,
+        ["--fg" as string]: t.fg,
+        ["--muted" as string]: t.muted,
+        ["--grid" as string]: t.grid,
+        minHeight: "100vh",
+        backgroundColor: t.bg,
+        backgroundImage: gridBg(t.grid),
+        backgroundSize: "24px 24px",
+        transition: "background-color 200ms ease",
+      }}
+    >
+      <style>{`
+        body { margin: 0; background-color: ${t.bg}; overflow-x: hidden; transition: background-color 200ms ease; }
+        .footer-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+        @media (max-width: 600px) {
+          .page-footer { flex-direction: column !important; align-items: center !important; text-align: center; }
+          .prompt-text { word-break: break-word; }
+        }
+      `}</style>
+
+      {/* Toggle — floats at top */}
+      <div
+        style={{
+          position: "fixed",
+          top: 10,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 200,
+        }}
+      >
+        <ViewerToggle mode={mode} onToggle={handleToggle} />
+      </div>
+
+      {/* Single PageContent with opacity crossfade */}
+      <div
+        style={{
+          opacity: fading ? 0 : 1,
+          transition: "opacity 200ms ease",
+        }}
+      >
+        <PageContent mode={visibleMode} />
       </div>
     </div>
   );

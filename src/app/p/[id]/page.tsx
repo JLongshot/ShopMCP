@@ -129,9 +129,6 @@ export default async function ProductPage({
         >
           The Agent Catalog
         </span>
-        <span style={{ fontSize: 13, letterSpacing: "0.08em", color: FG, fontFamily: "var(--font-mono)" }}>
-          × 0
-        </span>
       </header>
 
       {/* Page content */}

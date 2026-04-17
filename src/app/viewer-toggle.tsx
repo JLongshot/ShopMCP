@@ -47,8 +47,8 @@ export default function ViewerToggle({
         .toggle-seg {
           position: relative;
           z-index: 1;
-          padding: 5px 14px;
-          font-size: 10px;
+          padding: 7px 16px;
+          font-size: 11px;
           font-family: var(--font-mono);
           font-weight: 500;
           letter-spacing: 0.1em;

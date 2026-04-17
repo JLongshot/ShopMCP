@@ -88,7 +88,6 @@ function Chrome({ children }: { children: React.ReactNode }) {
         <span style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: FG, fontFamily: "var(--font-mono)" }}>
           The Agent Catalog
         </span>
-        <span style={{ fontSize: 13, letterSpacing: "0.08em", color: FG, fontFamily: "var(--font-mono)" }}>× 0</span>
       </header>
 
       <div style={{ paddingTop: 48, flex: 1, display: "flex", flexDirection: "column" }}>

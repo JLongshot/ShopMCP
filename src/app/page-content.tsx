@@ -68,9 +68,9 @@ function CopyBtn({ text, muted, accent }: { text: string; muted: string; accent:
 
 function EndpointLine({ method, url, accent, muted, fg }: { method: string; url: string; accent: string; muted: string; fg: string }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "4px 0", fontSize: 14 }}>
+    <div className="endpoint-line" style={{ display: "flex", alignItems: "center", gap: 8, margin: "4px 0", fontSize: 14, flexWrap: "wrap" }}>
       <span style={{ color: accent, fontWeight: 500 }}>{method}</span>
-      <code style={{ color: fg }}>{url}</code>
+      <code style={{ color: fg, flex: "1 1 auto", minWidth: 0 }}>{url}</code>
       <CopyBtn text={url} muted={muted} accent={accent} />
     </div>
   );
@@ -118,7 +118,7 @@ export default function PageContent({ mode }: { mode: Mode }) {
   const jsonPreview = previewProducts ? JSON.stringify({ products: previewProducts }, null, 2) : "  loading...";
 
   return (
-    <div style={{ minHeight: "100%", display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100%", display: "flex", flexDirection: "column", width: "100%", maxWidth: "100vw", overflowX: "hidden" }}>
       {/* Sticky header — part of each layer so spotlight can reveal it */}
       <header
         style={{
@@ -138,13 +138,11 @@ export default function PageContent({ mode }: { mode: Mode }) {
         <span style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: c.fg }}>
           The Agent Catalog
         </span>
-        {/* Center spacer for toggle (toggle floats above layers separately) */}
-        <div style={{ width: 140 }} />
-        <span style={{ fontSize: 13, letterSpacing: "0.08em", color: c.fg }}>× 0</span>
       </header>
 
       {/* ── Hero section ─── identical structure both modes ─────────── */}
       <section
+        className="hero-section"
         style={{
           position: "relative",
           display: "flex",
@@ -162,7 +160,7 @@ export default function PageContent({ mode }: { mode: Mode }) {
             100% { transform: rotate(-2deg) scale(1); opacity: 1; }
           }
           .ai-agent-pill {
-            animation: aiAgentPop 550ms cubic-bezier(0.34, 1.3, 0.64, 1) 500ms both;
+            animation: aiAgentPop 550ms cubic-bezier(0.34, 1.3, 0.64, 1) 1400ms both;
             transform-origin: center;
           }
           @keyframes keyboardFadeIn {
@@ -170,7 +168,37 @@ export default function PageContent({ mode }: { mode: Mode }) {
             to   { opacity: 1; }
           }
           .keyboard-fade-in {
-            animation: keyboardFadeIn 900ms ease-out 900ms both;
+            animation: keyboardFadeIn 900ms ease-out 600ms both;
+          }
+          /* ── Responsive tweaks ── */
+          @media (max-width: 600px) {
+            .hero-section {
+              padding-left: 28px !important;
+              padding-right: 28px !important;
+            }
+            .keyboard-wrap {
+              justify-content: flex-start !important;
+              margin-left: -28px !important;
+              margin-right: -28px !important;
+              width: calc(100% + 56px) !important;
+            }
+            .keyboard-wrap img {
+              margin-left: -40px !important;
+            }
+            .ai-agent-pill {
+              font-size: 1.05em !important;
+              margin: 0 -0.1em !important;
+              padding: 0.12em 0.3em !important;
+            }
+            .endpoint-line code {
+              word-break: break-all;
+            }
+          }
+          @media (max-width: 500px) {
+            .agent-launch-btn {
+              flex: 1 1 100% !important;
+              min-width: 100% !important;
+            }
           }
         `}</style>
         {/* Headline — shared spacer sets height, visible content overlaid */}
@@ -179,7 +207,7 @@ export default function PageContent({ mode }: { mode: Mode }) {
           <h1
             aria-hidden="true"
             style={{
-              fontSize: "clamp(40px, 7vw, 80px)",
+              fontSize: "clamp(52px, 7vw, 72px)",
               fontWeight: 700,
               fontFamily: "var(--font-display)",
               letterSpacing: "-0.03em",
@@ -188,7 +216,8 @@ export default function PageContent({ mode }: { mode: Mode }) {
               visibility: "hidden",
             }}
           >
-            {"The shop your "}
+            The shop your
+            <br />
             <span
               style={{
                 display: "inline-block",
@@ -198,13 +227,14 @@ export default function PageContent({ mode }: { mode: Mode }) {
                 borderRadius: "0.18em",
                 lineHeight: 1,
                 fontSize: "1.1em",
-                margin: "0 -0.2em",
+                margin: "0.15em -0.2em",
                 transform: "rotate(-2deg)",
               }}
             >
               AI AGENT
             </span>
-            <span style={{ whiteSpace: "nowrap" }}> reads for you.</span>
+            <br />
+            reads for you.
           </h1>
           {/* Agent headline — always visible underneath */}
           <h1
@@ -230,7 +260,7 @@ export default function PageContent({ mode }: { mode: Mode }) {
             style={{
               position: "absolute",
               inset: 0,
-              fontSize: "clamp(40px, 7vw, 80px)",
+              fontSize: "clamp(52px, 7vw, 72px)",
               fontWeight: 700,
               fontFamily: "var(--font-display)",
               letterSpacing: "-0.03em",
@@ -240,7 +270,8 @@ export default function PageContent({ mode }: { mode: Mode }) {
               opacity: isHuman ? 1 : 0, /* hidden in agent layer */
             }}
           >
-            {"The shop your "}
+            The shop your
+            <br />
             <span
               className="ai-agent-pill"
               style={{
@@ -251,13 +282,14 @@ export default function PageContent({ mode }: { mode: Mode }) {
                 borderRadius: "0.18em",
                 lineHeight: 1,
                 fontSize: "1.1em",
-                margin: "0 -0.2em",
+                margin: "0.15em -0.2em",
                 transform: "rotate(-2deg)",
               }}
             >
               AI AGENT
             </span>
-            <span style={{ whiteSpace: "nowrap" }}> reads for you.</span>
+            <br />
+            reads for you.
           </h1>
         </div>
 
@@ -429,6 +461,7 @@ export default function PageContent({ mode }: { mode: Mode }) {
               {AGENTS.map((a) => (
                 <a
                   key={a.label}
+                  className="agent-launch-btn"
                   href={a.href}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -472,7 +505,20 @@ export default function PageContent({ mode }: { mode: Mode }) {
           </div>
         )}
 
-        {isHuman && <img src="/hands-keyboard.png" alt="" className="keyboard-fade-in" style={{ marginTop: 40 }} />}
+        {isHuman && (
+          <div
+            className="keyboard-wrap"
+            style={{
+              width: "100%",
+              marginTop: 40,
+              overflow: "hidden",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <img src="/hands-keyboard.png" alt="" className="keyboard-fade-in" style={{ flexShrink: 0 }} />
+          </div>
+        )}
       </section>
 
       {/* ── Below the fold ─────────────────────────────────────────── */}
