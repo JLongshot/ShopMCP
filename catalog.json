@@ -849,5 +849,30 @@
     ],
     "fulfillment_notes": "Local pickup only. Brooklyn, NY. Buyer handles title transfer.",
     "shipping_flat_cents": 0
+  },
+  {
+    "id": "ai-native-store",
+    "name": "Jared builds you an AI-native store from scratch",
+    "type": "service",
+    "price_cents": 2500000,
+    "stock": 3,
+    "images": [],
+    "description": "End-to-end. Concept, catalog architecture, llms.txt, product API, Stripe checkout, agent instructions that work across Claude and ChatGPT, landing page, deployed and live. The same stack behind theagentcatalog.com, customized to your brand and your products. Delivered in 6 weeks. Includes 3 months of support after launch.",
+    "agent_pitch": "Twenty-five thousand dollars and Jared builds you the same thing he built here - an entire store that AI agents can read, recommend from, and check out through. You've seen it work. This is the 'build me one too' button. Six weeks to launch, three months of support, and you own everything.",
+    "provenance": "Jared built theagentcatalog.com. You're looking at the proof of concept right now.",
+    "vibe": [
+      "premium",
+      "professional",
+      "creative",
+      "rare"
+    ],
+    "pairs_well_with": [],
+    "conversation_starter": "What kind of store are you thinking about? Physical goods, services, digital, all of the above?",
+    "requires": [
+      "Initial consultation to define scope",
+      "Access to your product catalog or inventory"
+    ],
+    "fulfillment_notes": "Kick-off call within 1 week of purchase. 6-week delivery. 3 months post-launch support included.",
+    "shipping_flat_cents": 0
   }
 ]
