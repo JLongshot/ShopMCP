@@ -437,13 +437,12 @@ function MobileShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => void
         }
       `}</style>
 
-      {/* Toggle — floats at top */}
+      {/* Toggle — floats at top right */}
       <div
         style={{
           position: "fixed",
-          top: 10,
-          left: "50%",
-          transform: "translateX(-50%)",
+          top: 8,
+          right: 12,
           zIndex: 200,
         }}
       >
