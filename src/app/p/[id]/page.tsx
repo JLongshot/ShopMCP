@@ -303,32 +303,6 @@ export default async function ProductPage({
             </section>
           )}
 
-          {/* Vibe tags — dot separators, no pill boxes */}
-          {product.vibe.length > 0 && (
-            <section style={{ marginTop: 24 }}>
-              <div
-                style={{
-                  fontSize: 12,
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  color: MUTED,
-                  display: "flex",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                }}
-              >
-                {product.vibe.map((v, i) => (
-                  <span key={v} style={{ display: "flex", alignItems: "center" }}>
-                    {i > 0 && (
-                      <span style={{ margin: "0 8px", color: MUTED }}>·</span>
-                    )}
-                    {v}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )}
-
           {/* Agent pitch */}
           <AgentPitchToggle pitch={product.agent_pitch} />
 
