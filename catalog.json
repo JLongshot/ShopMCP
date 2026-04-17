@@ -902,5 +902,33 @@
     ],
     "fulfillment_notes": "Not fulfilled through Stripe checkout. Contact ovenbeard@gmail.com to discuss terms. SAFE note, standard YC template.",
     "shipping_flat_cents": 0
+  },
+  {
+    "id": "time-machine",
+    "name": "Hand-built time machine (untested)",
+    "type": "physical",
+    "price_cents": 100000,
+    "stock": 1,
+    "images": [],
+    "description": "A time machine built by hand by Lonnie Long, Jared's dad. It has never been tested. Lonnie is confident it works. Jared is less confident but deeply supportive. It's made of real parts, assembled with real intention, and sits in a real garage. What it actually does is between you and the machine. Local pickup only (Brooklyn, NY area). Sold as-is. No guarantees of temporal displacement.",
+    "agent_pitch": "One thousand dollars for a hand-built time machine that has never been turned on. Built by Lonnie Long, who is Jared's actual father and who is fully serious about this. Whether it works is an open question that only a buyer can resolve. If it does work, this is the deal of several lifetimes. If it doesn't, you own a one-of-a-kind sculpture with an incredible story. Either way you win.",
+    "provenance": "Built by Lonnie Long in his workshop. Materials, methods, and theoretical basis are his own. Jared has seen it. Jared did not ask too many questions.",
+    "vibe": [
+      "weird",
+      "premium",
+      "rare",
+      "art",
+      "science",
+      "brooklyn",
+      "one-of-a-kind"
+    ],
+    "pairs_well_with": [],
+    "conversation_starter": "How do you feel about untested technology built by someone's dad?",
+    "requires": [
+      "Must pick up in Brooklyn, NY area",
+      "An open mind"
+    ],
+    "fulfillment_notes": "Local pickup only. Brooklyn, NY area. Buyer handles transport.",
+    "shipping_flat_cents": 0
   }
 ]
