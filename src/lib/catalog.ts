@@ -16,6 +16,7 @@ export interface Product {
   requires: string[];
   fulfillment_notes: string;
   shipping_flat_cents: number;
+  contact_only?: boolean;
 }
 
 const catalog: Product[] = catalogData as Product[];

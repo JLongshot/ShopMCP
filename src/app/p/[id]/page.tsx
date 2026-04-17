@@ -346,7 +346,7 @@ export default async function ProductPage({
             </p>
           )}
 
-          {/* Buy / Sold out */}
+          {/* Buy / Contact / Sold out */}
           <div style={{ marginTop: 40 }}>
             {hasCheckoutError && (
               <p
@@ -363,7 +363,32 @@ export default async function ProductPage({
                 Something went wrong starting checkout. Try again in a moment.
               </p>
             )}
-            {inStock ? (
+            {product.contact_only ? (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <a
+                  href="mailto:ovenbeard@gmail.com?subject=Angel%20Check%20-%20The%20Agent%20Catalog"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "13px 48px",
+                    background: ACCENT,
+                    color: WHITE,
+                    border: "none",
+                    borderRadius: 6,
+                    fontSize: 13,
+                    fontFamily: "var(--font-mono)",
+                    fontWeight: 500,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  Get in touch
+                </a>
+              </div>
+            ) : inStock ? (
               <form
                 action={async () => {
                   "use server";
