@@ -1,5 +1,4 @@
-import localFont from "next/font/local";
-import { JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { notFound, redirect } from "next/navigation";
 import { getAllProducts, getProduct } from "@/lib/catalog";
 import { getStock } from "@/lib/inventory";
@@ -7,9 +6,17 @@ import { createCheckoutSession } from "@/lib/stripe";
 import { getSiteUrl } from "@/lib/url";
 import { AgentPitchToggle } from "./agent-pitch-toggle";
 
-const display = localFont({
-  src: [{ path: "../../fonts/GT-Ultra-VF.woff2", weight: "100 900", style: "normal" }],
+const display = Space_Grotesk({
+  subsets: ["latin"],
   variable: "--font-display",
+  weight: ["500", "700"],
+  display: "swap",
+});
+
+const body = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -65,9 +72,9 @@ export default async function ProductPage({
 
   return (
     <div
-      className={`${mono.variable} ${display.variable}`}
+      className={`${mono.variable} ${display.variable} ${body.variable}`}
       style={{
-        fontFamily: "var(--font-mono)",
+        fontFamily: "var(--font-body)",
         backgroundColor: BG,
         backgroundImage: [
           `linear-gradient(to right, ${GRID} 1px, transparent 1px)`,
@@ -117,11 +124,12 @@ export default async function ProductPage({
             letterSpacing: "0.08em",
             textTransform: "uppercase",
             color: FG,
+            fontFamily: "var(--font-mono)",
           }}
         >
           The Agent Catalog
         </span>
-        <span style={{ fontSize: 13, letterSpacing: "0.08em", color: FG }}>
+        <span style={{ fontSize: 13, letterSpacing: "0.08em", color: FG, fontFamily: "var(--font-mono)" }}>
           × 0
         </span>
       </header>
@@ -156,6 +164,7 @@ export default async function ProductPage({
               display: "inline-flex",
               alignItems: "center",
               gap: 6,
+              fontFamily: "var(--font-mono)",
             }}
           >
             ← The Agent Catalog
@@ -213,6 +222,7 @@ export default async function ProductPage({
                 whiteSpace: "nowrap",
                 color: inStock ? FG : MUTED,
                 flexShrink: 0,
+                fontFamily: "var(--font-mono)",
               }}
             >
               ${(product.price_cents / 100).toFixed(2)}
@@ -234,6 +244,7 @@ export default async function ProductPage({
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 color: MUTED,
+                fontFamily: "var(--font-mono)",
               }}
             >
               {product.type}
@@ -286,6 +297,7 @@ export default async function ProductPage({
                   textTransform: "uppercase",
                   color: MUTED,
                   marginBottom: 8,
+                  fontFamily: "var(--font-mono)",
                 }}
               >
                 Provenance
@@ -440,6 +452,7 @@ export default async function ProductPage({
               letterSpacing: "0.06em",
               textTransform: "uppercase",
               color: MUTED,
+              fontFamily: "var(--font-mono)",
             }}
           >
             © The Agent Catalog
@@ -470,6 +483,7 @@ export default async function ProductPage({
                     textTransform: "uppercase",
                     color: MUTED,
                     textDecoration: "none",
+                    fontFamily: "var(--font-mono)",
                   }}
                 >
                   {label}

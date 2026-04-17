@@ -1,9 +1,16 @@
-import localFont from "next/font/local";
-import { JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 
-const display = localFont({
-  src: [{ path: "../../fonts/GT-Ultra-VF.woff2", weight: "100 900", style: "normal" }],
+const display = Space_Grotesk({
+  subsets: ["latin"],
   variable: "--font-display",
+  weight: ["500", "700"],
+  display: "swap",
+});
+
+const body = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -23,9 +30,9 @@ const WHITE = "#ffffff";
 export default function CancelPage() {
   return (
     <div
-      className={`${mono.variable} ${display.variable}`}
+      className={`${mono.variable} ${display.variable} ${body.variable}`}
       style={{
-        fontFamily: "var(--font-mono)",
+        fontFamily: "var(--font-body)",
         backgroundColor: BG,
         backgroundImage: [
           `linear-gradient(to right, ${GRID} 1px, transparent 1px)`,
@@ -69,10 +76,10 @@ export default function CancelPage() {
           zIndex: 100,
         }}
       >
-        <span style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: FG }}>
+        <span style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: FG, fontFamily: "var(--font-mono)" }}>
           The Agent Catalog
         </span>
-        <span style={{ fontSize: 13, letterSpacing: "0.08em", color: FG }}>× 0</span>
+        <span style={{ fontSize: 13, letterSpacing: "0.08em", color: FG, fontFamily: "var(--font-mono)" }}>× 0</span>
       </header>
 
       <div style={{ paddingTop: 48, flex: 1, display: "flex", flexDirection: "column" }}>
@@ -129,6 +136,7 @@ export default function CancelPage() {
                 textDecoration: "none",
                 borderBottom: `1px solid ${GRID}`,
                 paddingBottom: 2,
+                fontFamily: "var(--font-mono)",
               }}
             >
               ← Back to The Agent Catalog
@@ -148,7 +156,7 @@ export default function CancelPage() {
             flexWrap: "wrap",
           }}
         >
-          <span style={{ fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase", color: MUTED }}>
+          <span style={{ fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-mono)" }}>
             © The Agent Catalog
           </span>
           <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
@@ -162,7 +170,7 @@ export default function CancelPage() {
                 <a
                   href={href}
                   className="checkout-footer-link"
-                  style={{ fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", color: MUTED, textDecoration: "none" }}
+                  style={{ fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", color: MUTED, textDecoration: "none", fontFamily: "var(--font-mono)" }}
                 >
                   {label}
                 </a>

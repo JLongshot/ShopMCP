@@ -1,17 +1,21 @@
-import localFont from "next/font/local";
-import { JetBrains_Mono } from "next/font/google";
-import { LANDING_PROMPT } from "@/lib/prompt";
-import { getAllProducts } from "@/lib/catalog";
-import HeadlineTyper from "./headline-typer";
-import PromptCard from "./prompt-card";
-import AgentButtonRow from "./agent-button-row";
+"use client";
 
-// GT Ultra variable font (weights 100–900) — from opencard-dashboard
-// NOTE: Jared asked for "GT Super" but GT Ultra is what's in the local projects.
-// Verify with Jared — if GT Super files exist, drop this and wire them up via localFont.
-const display = localFont({
-  src: [{ path: "./fonts/GT-Ultra-VF.woff2", weight: "100 900", style: "normal" }],
+import { useState, useRef, useCallback, useEffect, useLayoutEffect } from "react";
+import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import ViewerToggle from "./viewer-toggle";
+import PageContent from "./page-content";
+
+const display = Space_Grotesk({
+  subsets: ["latin"],
   variable: "--font-display",
+  weight: ["500", "700"],
+  display: "swap",
+});
+
+const body = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -22,256 +26,360 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
-const BG = "#eceeef";
-const FG = "#111";
-const MUTED = "#7a7d80";
-const GRID = "#dcdfe1";
+type Mode = "human" | "agent";
+
+const THEME = {
+  human: { bg: "#eceeef", fg: "#111", muted: "#7a7d80", grid: "#dcdfe1" },
+  agent: { bg: "#0a0a0a", fg: "#e0e0e0", muted: "#555", grid: "#1a1a1a" },
+} as const;
+
+const SPOTLIGHT_RADIUS = 144;
+const SPOTLIGHT_RADIUS_HOVER = 14;
+
+function isClickable(el: Element | null): boolean {
+  while (el) {
+    if (el instanceof HTMLElement) {
+      const tag = el.tagName;
+      if (tag === "A" || tag === "BUTTON") return true;
+      if (el.getAttribute("role") === "button") return true;
+    }
+    el = el.parentElement;
+  }
+  return false;
+}
+
+function gridBg(gridColor: string) {
+  return [
+    `linear-gradient(to right, ${gridColor} 1px, transparent 1px)`,
+    `linear-gradient(to bottom, ${gridColor} 1px, transparent 1px)`,
+  ].join(", ");
+}
 
 export default function Home() {
-  const stockCount = getAllProducts().filter((p) => p.stock > 0).length;
+  const [mode, setMode] = useState<Mode>("human");
+  const t = THEME[mode];
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const humanLayerRef = useRef<HTMLDivElement>(null);
+  const agentLayerRef = useRef<HTMLDivElement>(null);
+  const modeRef = useRef(mode);
+  const mouseClientRef = useRef({ x: -9999, y: -9999 });
+  const rafRef = useRef(0);
+  const isTouchRef = useRef(false);
+  const hoveringClickableRef = useRef(false);
+
+  // Ripple wipe state
+  const [wipe, setWipe] = useState<{
+    active: boolean;
+    cx: number;
+    cy: number;
+    from: Mode;
+    to: Mode;
+  } | null>(null);
+  const wipeLayerRef = useRef<HTMLDivElement>(null);
+
+  modeRef.current = mode;
+
+  // ── Spotlight mask ──────────────────────────────────────────────────
+
+  const getTopLayer = useCallback(() => {
+    return modeRef.current === "human"
+      ? humanLayerRef.current
+      : agentLayerRef.current;
+  }, []);
+
+  const currentRadiusRef = useRef(SPOTLIGHT_RADIUS);
+  const targetRadiusRef = useRef(SPOTLIGHT_RADIUS);
+  const currentPosRef = useRef({ x: -9999, y: -9999 });
+  const lerpRafRef = useRef(0);
+
+  const POS_SMOOTHING = 0.05;
+  const RADIUS_SMOOTHING = 0.08;
+
+  const getTargetCoords = useCallback(() => {
+    const { x, y } = mouseClientRef.current;
+    const scrollTop = scrollRef.current?.scrollTop ?? 0;
+    return { mx: x, my: y + scrollTop };
+  }, []);
+
+  const applyMaskAt = useCallback(
+    (mx: number, my: number, r: number) => {
+      const topEl = getTopLayer();
+      if (!topEl) return;
+      const mask = `radial-gradient(circle at ${mx}px ${my}px, transparent ${r}px, black ${r}px)`;
+      topEl.style.maskImage = mask;
+      topEl.style.setProperty("-webkit-mask-image", mask);
+    },
+    [getTopLayer],
+  );
+
+  const runLerp = useCallback(() => {
+    const { mx: targetX, my: targetY } = getTargetCoords();
+    const currentRadius = currentRadiusRef.current;
+    const targetRadius = targetRadiusRef.current;
+
+    // Initialize position on first frame to avoid snap from -9999
+    if (currentPosRef.current.x === -9999) {
+      currentPosRef.current = { x: targetX, y: targetY };
+    }
+
+    const dx = targetX - currentPosRef.current.x;
+    const dy = targetY - currentPosRef.current.y;
+    const dr = targetRadius - currentRadius;
+
+    const posSettled = Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5;
+    const radiusSettled = Math.abs(dr) < 0.5;
+
+    if (posSettled && radiusSettled) {
+      currentPosRef.current = { x: targetX, y: targetY };
+      currentRadiusRef.current = targetRadius;
+      applyMaskAt(targetX, targetY, targetRadius);
+      return;
+    }
+
+    const nextX = posSettled ? targetX : currentPosRef.current.x + dx * POS_SMOOTHING;
+    const nextY = posSettled ? targetY : currentPosRef.current.y + dy * POS_SMOOTHING;
+    const nextR = radiusSettled ? targetRadius : currentRadius + dr * RADIUS_SMOOTHING;
+
+    currentPosRef.current = { x: nextX, y: nextY };
+    currentRadiusRef.current = nextR;
+    applyMaskAt(nextX, nextY, nextR);
+    lerpRafRef.current = requestAnimationFrame(runLerp);
+  }, [applyMaskAt, getTargetCoords]);
+
+  const applyMask = useCallback(
+    (r?: number) => {
+      const newTarget = r ?? SPOTLIGHT_RADIUS;
+      targetRadiusRef.current = newTarget;
+      cancelAnimationFrame(lerpRafRef.current);
+      lerpRafRef.current = requestAnimationFrame(runLerp);
+    },
+    [runLerp],
+  );
+
+  const removeMask = useCallback(() => {
+    [humanLayerRef, agentLayerRef].forEach((ref) => {
+      if (ref.current) {
+        ref.current.style.maskImage = "none";
+        ref.current.style.setProperty("-webkit-mask-image", "none");
+      }
+    });
+  }, []);
+
+  // ── Mouse tracking ──────────────────────────────────────────────────
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (isTouchRef.current) return;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        mouseClientRef.current = { x: e.clientX, y: e.clientY };
+        hoveringClickableRef.current = isClickable(e.target as Element);
+        const r = hoveringClickableRef.current
+          ? SPOTLIGHT_RADIUS_HOVER
+          : SPOTLIGHT_RADIUS;
+        applyMask(r);
+      });
+    },
+    [applyMask],
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    mouseClientRef.current = { x: -9999, y: -9999 };
+    removeMask();
+  }, [removeMask]);
+
+  const lastScrollRef = useRef(0);
+  const handleScroll = useCallback(() => {
+    const newScroll = scrollRef.current?.scrollTop ?? 0;
+    const delta = newScroll - lastScrollRef.current;
+    lastScrollRef.current = newScroll;
+    if (mouseClientRef.current.x === -9999 || isTouchRef.current) return;
+    // Shift the smoothed position by the scroll delta so the mask stays under the cursor.
+    if (currentPosRef.current.x !== -9999) {
+      currentPosRef.current.y += delta;
+      applyMaskAt(currentPosRef.current.x, currentPosRef.current.y, currentRadiusRef.current);
+    }
+  }, [applyMaskAt]);
+
+  useEffect(() => {
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      isTouchRef.current = true;
+      return;
+    }
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (lerpRafRef.current) cancelAnimationFrame(lerpRafRef.current);
+    };
+  }, [handleMouseMove, handleMouseLeave]);
+
+  useLayoutEffect(() => {
+    removeMask();
+    if (mouseClientRef.current.x !== -9999 && !isTouchRef.current) {
+      applyMask();
+    }
+  }, [mode, applyMask, removeMask]);
+
+  // ── Ripple wipe transition ──────────────────────────────────────────
+
+  function handleToggle(newMode: Mode) {
+    if (newMode === mode || wipe?.active) return;
+    const cx =
+      mouseClientRef.current.x !== -9999
+        ? mouseClientRef.current.x
+        : window.innerWidth / 2;
+    const cy =
+      mouseClientRef.current.y !== -9999
+        ? mouseClientRef.current.y
+        : window.innerHeight / 2;
+    removeMask();
+    setWipe({ active: true, cx, cy, from: mode, to: newMode });
+  }
+
+  useEffect(() => {
+    if (!wipe?.active) return;
+    const el = wipeLayerRef.current;
+    if (!el) return;
+
+    const maxDist = Math.max(
+      Math.hypot(wipe.cx, wipe.cy),
+      Math.hypot(window.innerWidth - wipe.cx, wipe.cy),
+      Math.hypot(wipe.cx, window.innerHeight - wipe.cy),
+      Math.hypot(window.innerWidth - wipe.cx, window.innerHeight - wipe.cy),
+    );
+
+    el.style.clipPath = `circle(0px at ${wipe.cx}px ${wipe.cy}px)`;
+    el.style.setProperty("-webkit-clip-path", `circle(0px at ${wipe.cx}px ${wipe.cy}px)`);
+    el.getBoundingClientRect();
+
+    el.style.transition =
+      "clip-path 500ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-clip-path 500ms cubic-bezier(0.4, 0, 0.2, 1)";
+    el.style.clipPath = `circle(${maxDist}px at ${wipe.cx}px ${wipe.cy}px)`;
+    el.style.setProperty("-webkit-clip-path", `circle(${maxDist}px at ${wipe.cx}px ${wipe.cy}px)`);
+
+    const timer = setTimeout(() => {
+      setMode(wipe.to);
+      setWipe(null);
+      if (el) {
+        el.style.transition = "none";
+        el.style.clipPath = "none";
+        el.style.setProperty("-webkit-clip-path", "none");
+      }
+    }, 520);
+    return () => clearTimeout(timer);
+  }, [wipe]);
+
+  // ── Render ──────────────────────────────────────────────────────────
+
+  const wipeTheme = wipe ? THEME[wipe.to] : null;
 
   return (
     <div
-      className={`${mono.variable} ${display.variable}`}
+      className={`${mono.variable} ${display.variable} ${body.variable}`}
       style={{
-        fontFamily: "var(--font-mono)",
-        backgroundColor: BG,
-        backgroundImage: [
-          `linear-gradient(to right, ${GRID} 1px, transparent 1px)`,
-          `linear-gradient(to bottom, ${GRID} 1px, transparent 1px)`,
-        ].join(", "),
-        backgroundSize: "24px 24px",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
+        fontFamily: "var(--font-body)",
+        ["--bg" as string]: t.bg,
+        ["--fg" as string]: t.fg,
+        ["--muted" as string]: t.muted,
+        ["--grid" as string]: t.grid,
       }}
     >
       <style>{`
-        body {
-          background-color: ${BG};
-          background-image:
-            linear-gradient(to right, ${GRID} 1px, transparent 1px),
-            linear-gradient(to bottom, ${GRID} 1px, transparent 1px);
-          background-size: 24px 24px;
-          margin: 0;
-        }
+        body { margin: 0; background-color: ${t.bg}; transition: background-color 400ms ease-in-out; }
         .footer-link:hover { text-decoration: underline; text-underline-offset: 3px; }
         @media (max-width: 600px) {
           .page-footer { flex-direction: column !important; align-items: center !important; text-align: center; }
           .prompt-text { word-break: break-word; }
         }
+        @keyframes wipeInLayer {
+          from { clip-path: circle(0% at 50% 50%); }
+          to { clip-path: circle(150% at 50% 50%); }
+        }
       `}</style>
 
-      {/* Fixed top bar */}
-      <header
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 48,
-          backgroundColor: BG,
-          borderBottom: `1px solid ${FG}`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 16px",
-          zIndex: 100,
-        }}
-      >
-        <span
-          style={{
-            fontSize: 13,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            color: FG,
-          }}
-        >
-          The Agent Catalog
-        </span>
-        <span style={{ fontSize: 13, letterSpacing: "0.08em", color: FG }}>
-          × 0
-        </span>
-      </header>
-
-      {/* Content below fixed bar */}
+      {/* Toggle — floats above both layers */}
       <div
         style={{
-          paddingTop: 48,
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
+          position: "fixed",
+          top: 10,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 200,
         }}
       >
-        {/* Hero — fills remaining viewport height */}
-        <section
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "48px 16px",
-            textAlign: "center",
-          }}
-        >
-          {/* Headline — GT Ultra, sentence case, types in on load */}
-          <HeadlineTyper
-            text={"The shop your\nAI reads for you."}
-            style={{
-              fontSize: "clamp(40px, 7vw, 80px)",
-              fontWeight: 500,
-              fontFamily: "var(--font-display)",
-              letterSpacing: "-0.02em",
-              lineHeight: 1.05,
-              color: FG,
-              maxWidth: 900,
-              margin: 0,
-            }}
-          />
+        <ViewerToggle mode={mode} onToggle={handleToggle} />
+      </div>
 
-          {/* Subheading */}
-          <p
-            style={{
-              marginTop: 24,
-              marginBottom: 0,
-              fontSize: 15,
-              lineHeight: 1.5,
-              color: MUTED,
-              maxWidth: 560,
-              textAlign: "center",
-              fontFamily: "var(--font-mono)",
-            }}
-          >
-            {stockCount} items for sale. No product grid, no filters, no browse.{" "}
-            Paste the prompt, and your AI does the shopping.
-          </p>
-
-          {/* Primary CTAs — large filled buttons that deep-link into Claude / ChatGPT */}
-          <AgentButtonRow />
-
-          {/* Divider — signals the card below is the fallback path */}
-          <span
-            style={{
-              marginTop: 32,
-              marginBottom: 16,
-              fontSize: 11,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: MUTED,
-            }}
-          >
-            or
-          </span>
-
-          {/* Prompt card — secondary option for any other agent */}
-          <PromptCard text={LANDING_PROMPT} />
-        </section>
-
-        {/* Activity line */}
-        <div
-          style={{
-            padding: "0 16px 8px",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <span
-            style={{
-              fontSize: 12,
-              letterSpacing: "0.04em",
-              color: MUTED,
-              fontFamily: "var(--font-mono)",
-            }}
-          >
-            Now open. First orders shipping this week.
-          </span>
-        </div>
-
-        {/* Seller CTA — standalone row above the copyright footer */}
-        <div
-          style={{
-            padding: "20px 16px 4px",
-            display: "flex",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
-        >
-          <a
-            href="mailto:ovenbeard@gmail.com?subject=Feature%20my%20items%20on%20The%20Agent%20Catalog&body=Hi%20Jared%2C%0A%0AI%27d%20like%20to%20get%20my%20items%20featured%20on%20The%20Agent%20Catalog.%0A%0AStore%20%2F%20brand%3A%20%0AWhat%20I%20sell%3A%20%0ALink%3A%20%0A%0AThanks%21"
-            className="footer-link"
-            style={{
-              fontSize: 12,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              color: FG,
-              textDecoration: "none",
-              borderBottom: `1px solid ${FG}`,
-              paddingBottom: 2,
-            }}
-          >
-            Are you a seller? Get your items featured →
-          </a>
-        </div>
-
-        {/* Footer — plain text links */}
-        <footer
-          className="page-footer"
-          style={{
-            padding: "20px 16px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 12,
-            flexWrap: "wrap",
-          }}
-        >
-          <span
-            style={{
-              fontSize: 12,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              color: MUTED,
-            }}
-          >
-            © The Agent Catalog
-          </span>
+      {/* Full-page scroll container with grid-stacked layers */}
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        style={{
+          position: "fixed",
+          inset: 0,
+          overflowX: "hidden",
+          overflowY: "auto",
+        }}
+      >
+        <div style={{ display: "grid", minHeight: "100vh", position: "relative" }}>
+          {/* Human layer — fades in on initial load so agent layer peeks through first */}
           <div
+            ref={humanLayerRef}
             style={{
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-              justifyContent: "center",
+              gridRow: 1,
+              gridColumn: 1,
+              position: "relative",
+              zIndex: mode === "human" ? 2 : 1,
+              backgroundColor: THEME.human.bg,
+              backgroundImage: gridBg(THEME.human.grid),
+              backgroundSize: "24px 24px",
+              animation: "wipeInLayer 2.4s cubic-bezier(0.4, 0, 0.2, 1) 500ms both",
             }}
           >
-            {[
-              { label: "PRIVACY", href: "/privacy" },
-              { label: "TERMS", href: "/terms" },
-              { label: "OVENBEARD@GMAIL.COM", href: "mailto:ovenbeard@gmail.com" },
-            ].map(({ label, href }, i) => (
-              <span key={label} style={{ display: "flex", alignItems: "center" }}>
-                {i > 0 && (
-                  <span style={{ color: MUTED, margin: "0 8px", fontSize: 11 }}>
-                    ·
-                  </span>
-                )}
-                <a
-                  href={href}
-                  className="footer-link"
-                  style={{
-                    fontSize: 11,
-                    letterSpacing: "0.06em",
-                    textTransform: "uppercase",
-                    color: MUTED,
-                    textDecoration: "none",
-                  }}
-                >
-                  {label}
-                </a>
-              </span>
-            ))}
+            <PageContent mode="human" />
           </div>
-        </footer>
+
+          {/* Agent layer — relative when active (contributes to page height), absolute when inactive (doesn't stretch the human page) */}
+          <div
+            ref={agentLayerRef}
+            style={{
+              gridRow: 1,
+              gridColumn: 1,
+              position: mode === "agent" ? "relative" : "absolute",
+              inset: mode === "agent" ? undefined : 0,
+              overflow: mode === "agent" ? "visible" : "hidden",
+              zIndex: mode === "agent" ? 2 : 1,
+              backgroundColor: THEME.agent.bg,
+              backgroundImage: gridBg(THEME.agent.grid),
+              backgroundSize: "24px 24px",
+            }}
+          >
+            <PageContent mode="agent" />
+          </div>
+
+          {/* Ripple wipe overlay */}
+          {wipe?.active && wipeTheme && (
+            <div
+              ref={wipeLayerRef}
+              style={{
+                gridRow: 1,
+                gridColumn: 1,
+                position: "relative",
+                zIndex: 10,
+                backgroundColor: wipeTheme.bg,
+                backgroundImage: gridBg(wipeTheme.grid),
+                backgroundSize: "24px 24px",
+                pointerEvents: "none",
+              }}
+            >
+              <PageContent mode={wipe.to} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
