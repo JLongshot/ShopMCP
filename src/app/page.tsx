@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect, useLayoutEffect } from "react
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import ViewerToggle from "./viewer-toggle";
 import PageContent from "./page-content";
+import SpotlightRing, { type SpotlightRingHandle } from "./spotlight-ring";
 import { useIsCoarse } from "./use-is-coarse";
 
 const display = Space_Grotesk({
@@ -36,6 +37,7 @@ const THEME = {
 
 const SPOTLIGHT_RADIUS = 144;
 const SPOTLIGHT_RADIUS_HOVER = 14;
+const HOLD_DURATION_MS = 3000;
 
 function isClickable(el: Element | null): boolean {
   while (el) {
@@ -87,6 +89,14 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
     to: Mode;
   } | null>(null);
   const wipeLayerRef = useRef<HTMLDivElement>(null);
+  const wipeActiveRef = useRef(false);
+
+  // Spotlight ring (curved-text label + hold-to-swap)
+  const ringRef = useRef<SpotlightRingHandle>(null);
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const holdRafRef = useRef(0);
+  const holdStartRef = useRef(0);
+  const handleToggleRef = useRef<((m: Mode) => void) | null>(null);
 
   modeRef.current = mode;
 
@@ -123,6 +133,11 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
     [getTopLayer],
   );
 
+  const updateRingPosition = useCallback((layerX: number, layerY: number) => {
+    const scrollTop = scrollRef.current?.scrollTop ?? 0;
+    ringRef.current?.setTransform(layerX, layerY - scrollTop);
+  }, []);
+
   const runLerp = useCallback(() => {
     const { mx: targetX, my: targetY } = getTargetCoords();
     const currentRadius = currentRadiusRef.current;
@@ -144,6 +159,7 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
       currentPosRef.current = { x: targetX, y: targetY };
       currentRadiusRef.current = targetRadius;
       applyMaskAt(targetX, targetY, targetRadius);
+      updateRingPosition(targetX, targetY);
       return;
     }
 
@@ -154,8 +170,9 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
     currentPosRef.current = { x: nextX, y: nextY };
     currentRadiusRef.current = nextR;
     applyMaskAt(nextX, nextY, nextR);
+    updateRingPosition(nextX, nextY);
     lerpRafRef.current = requestAnimationFrame(runLerp);
-  }, [applyMaskAt, getTargetCoords]);
+  }, [applyMaskAt, getTargetCoords, updateRingPosition]);
 
   const applyMask = useCallback(
     (r?: number) => {
@@ -178,6 +195,19 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
 
   // ── Mouse tracking ──────────────────────────────────────────────────
 
+  const cancelHold = useCallback(() => {
+    if (holdTimerRef.current !== null) {
+      clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+    if (holdRafRef.current) {
+      cancelAnimationFrame(holdRafRef.current);
+      holdRafRef.current = 0;
+    }
+    ringRef.current?.setProgress(0);
+    ringRef.current?.setHolding(false);
+  }, []);
+
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
       if (isTouchRef.current) return;
@@ -189,6 +219,9 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
           ? SPOTLIGHT_RADIUS_HOVER
           : SPOTLIGHT_RADIUS;
         applyMask(r);
+        ringRef.current?.setVisible(
+          !hoveringClickableRef.current && !wipeActiveRef.current,
+        );
       });
     },
     [applyMask],
@@ -197,7 +230,9 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
   const handleMouseLeave = useCallback(() => {
     mouseClientRef.current = { x: -9999, y: -9999 };
     removeMask();
-  }, [removeMask]);
+    ringRef.current?.setVisible(false);
+    cancelHold();
+  }, [removeMask, cancelHold]);
 
   const lastScrollRef = useRef(0);
   const handleScroll = useCallback(() => {
@@ -212,6 +247,39 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
     }
   }, [applyMaskAt]);
 
+  const tickHoldProgress = useCallback(() => {
+    const elapsed = performance.now() - holdStartRef.current;
+    const p = Math.min(1, elapsed / HOLD_DURATION_MS);
+    ringRef.current?.setProgress(p);
+    if (p < 1) {
+      holdRafRef.current = requestAnimationFrame(tickHoldProgress);
+    }
+  }, []);
+
+  const handleMouseDown = useCallback(
+    (e: MouseEvent) => {
+      if (isTouchRef.current) return;
+      if (e.button !== 0) return;
+      if (wipeActiveRef.current) return;
+      if (isClickable(e.target as Element)) return;
+      if (mouseClientRef.current.x === -9999) return;
+      holdStartRef.current = performance.now();
+      ringRef.current?.setHolding(true);
+      holdRafRef.current = requestAnimationFrame(tickHoldProgress);
+      holdTimerRef.current = setTimeout(() => {
+        holdTimerRef.current = null;
+        const nextMode = modeRef.current === "human" ? "agent" : "human";
+        handleToggleRef.current?.(nextMode);
+        cancelHold();
+      }, HOLD_DURATION_MS);
+    },
+    [tickHoldProgress, cancelHold],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    cancelHold();
+  }, [cancelHold]);
+
   useEffect(() => {
     if (window.matchMedia("(pointer: coarse)").matches) {
       isTouchRef.current = true;
@@ -219,18 +287,26 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
     }
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     document.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      cancelHold();
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       if (lerpRafRef.current) cancelAnimationFrame(lerpRafRef.current);
     };
-  }, [handleMouseMove, handleMouseLeave]);
+  }, [handleMouseMove, handleMouseLeave, handleMouseDown, handleMouseUp, cancelHold]);
 
   useLayoutEffect(() => {
     removeMask();
     if (mouseClientRef.current.x !== -9999 && !isTouchRef.current) {
       applyMask();
+      if (!wipeActiveRef.current) {
+        ringRef.current?.setVisible(!hoveringClickableRef.current);
+      }
     }
   }, [mode, applyMask, removeMask]);
 
@@ -247,8 +323,12 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
         ? mouseClientRef.current.y
         : window.innerHeight / 2;
     removeMask();
+    wipeActiveRef.current = true;
+    ringRef.current?.setVisible(false);
+    cancelHold();
     setWipe({ active: true, cx, cy, from: mode, to: newMode });
   }
+  handleToggleRef.current = handleToggle;
 
   useEffect(() => {
     if (!wipe?.active) return;
@@ -274,6 +354,7 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
     const timer = setTimeout(() => {
       setMode(wipe.to);
       setWipe(null);
+      wipeActiveRef.current = false;
       if (el) {
         el.style.transition = "none";
         el.style.clipPath = "none";
@@ -322,6 +403,13 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
       >
         <ViewerToggle mode={mode} onToggle={handleToggle} />
       </div>
+
+      {/* Curved-text ring around the spotlight. Hides on touch devices. */}
+      <SpotlightRing
+        ref={ringRef}
+        label={mode === "human" ? "AI AGENT VIEW" : "HUMAN VIEW"}
+        color={t.fg}
+      />
 
       {/* Full-page scroll container with grid-stacked layers */}
       <div
