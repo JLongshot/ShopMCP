@@ -35,10 +35,14 @@ const THEME = {
   agent: { bg: "#0a0a0a", fg: "#e0e0e0", muted: "#555", grid: "#1a1a1a" },
 } as const;
 
-const SPOTLIGHT_RADIUS = 96;
+const SPOTLIGHT_RADIUS = 58;
 const SPOTLIGHT_RADIUS_HOVER = 14;
-const SPOTLIGHT_HOLD_RADIUS = 88;
+const SPOTLIGHT_HOLD_RADIUS = 53;
 const HOLD_DURATION_MS = 1200;
+const RING_PROGRESS_COLOR: Record<Mode, string> = {
+  human: "#5b5bd6",
+  agent: "#4ade80",
+};
 
 function isClickable(el: Element | null): boolean {
   while (el) {
@@ -420,6 +424,7 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
         ref={ringRef}
         label={mode === "human" ? "AI AGENT VIEW" : "HUMAN VIEW"}
         color={t.fg}
+        progressColor={RING_PROGRESS_COLOR[mode]}
       />
 
       {/* Full-page scroll container with grid-stacked layers */}
