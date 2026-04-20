@@ -38,7 +38,7 @@ const THEME = {
 const SPOTLIGHT_RADIUS = 144;
 const SPOTLIGHT_RADIUS_HOVER = 14;
 const SPOTLIGHT_HOLD_RADIUS = 134;
-const HOLD_DURATION_MS = 3000;
+const HOLD_DURATION_MS = 1200;
 
 function isClickable(el: Element | null): boolean {
   while (el) {
