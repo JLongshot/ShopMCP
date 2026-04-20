@@ -35,9 +35,9 @@ const THEME = {
   agent: { bg: "#0a0a0a", fg: "#e0e0e0", muted: "#555", grid: "#1a1a1a" },
 } as const;
 
-const SPOTLIGHT_RADIUS = 118;
+const SPOTLIGHT_RADIUS = 96;
 const SPOTLIGHT_RADIUS_HOVER = 14;
-const SPOTLIGHT_HOLD_RADIUS = 108;
+const SPOTLIGHT_HOLD_RADIUS = 88;
 const HOLD_DURATION_MS = 1200;
 
 function isClickable(el: Element | null): boolean {

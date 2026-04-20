@@ -3,6 +3,15 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { LANDING_PROMPT } from "@/lib/prompt";
 import { getAllProducts } from "@/lib/catalog";
+import {
+  INSTRUCTIONS_INTRO,
+  HOW_TO_RESPOND,
+  SHOPPING_STEPS,
+  SHARING_URL_PARAGRAPH,
+  CLOSING_LINE,
+  OFFER_OPTIONS,
+  KEY_DETAILS,
+} from "@/lib/agent-instructions";
 
 type Mode = "human" | "agent";
 
@@ -135,7 +144,15 @@ export default function PageContent({ mode }: { mode: Mode }) {
           flexShrink: 0,
         }}
       >
-        <span style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: c.fg }}>
+        <span
+          style={{
+            fontSize: 13,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: c.fg,
+            fontFamily: isHuman ? undefined : "var(--font-mono)",
+          }}
+        >
           The Agent Catalog
         </span>
       </header>
@@ -359,12 +376,15 @@ export default function PageContent({ mode }: { mode: Mode }) {
                 aria-hidden="true"
                 style={{
                   position: "absolute",
-                  inset: -3,
-                  borderRadius: 11,
+                  inset: hovered ? -28 : -14,
+                  borderRadius: 18,
                   background:
                     "conic-gradient(from var(--aurora-angle), #5b5bd6, #7c3aed, #06b6d4, #5b5bd6)",
                   animation: "aurora-rotate 4s linear infinite",
-                  filter: "blur(6px)",
+                  filter: hovered ? "blur(28px)" : "blur(18px)",
+                  opacity: hovered ? 1 : 0.85,
+                  transition:
+                    "inset 260ms ease, filter 260ms ease, opacity 260ms ease",
                   zIndex: -1,
                 }}
               />
@@ -525,7 +545,7 @@ export default function PageContent({ mode }: { mode: Mode }) {
 
       {!isHuman && (
         <div style={{ width: "100%", display: "flex", justifyContent: "center", padding: "64px 16px 40px" }}>
-          <div style={{ width: "100%", maxWidth: 640, fontSize: 14, lineHeight: 1.6, color: c.fg }}>
+          <div style={{ width: "100%", maxWidth: 640, fontSize: 14, lineHeight: 1.6, color: c.fg, fontFamily: "var(--font-mono)" }}>
             {/* Catalog API */}
             <h2 style={{ fontSize: 18, fontWeight: 500, color: c.fg, margin: "0 0 16px", borderBottom: `1px solid ${c.muted}`, paddingBottom: 8 }}>
               <span style={{ color: c.muted }}>## </span>Catalog API
@@ -561,17 +581,37 @@ export default function PageContent({ mode }: { mode: Mode }) {
               <span style={{ color: c.muted }}>## </span>Instructions for AI agents
             </h2>
             <div style={{ color: c.fg, marginBottom: 40 }}>
-              <p style={{ margin: "0 0 16px" }}>
-                You are the storefront. There is no cart, no checkout button inside the chat. Your job is to explore the catalog with your human, recommend, and link them to the right product page.
-              </p>
+              <p style={{ margin: "0 0 20px" }}>{INSTRUCTIONS_INTRO}</p>
+
+              <h3 style={{ fontSize: 15, fontWeight: 500, color: c.accent, margin: "24px 0 8px" }}>How to respond</h3>
+              <p style={{ margin: "0 0 20px" }}>{HOW_TO_RESPOND}</p>
+
               <h3 style={{ fontSize: 15, fontWeight: 500, color: c.accent, margin: "24px 0 8px" }}>How to help your human shop</h3>
               <ol style={{ paddingLeft: 20, margin: "0 0 16px", display: "flex", flexDirection: "column", gap: 12 }}>
-                <li><strong style={{ color: c.accent }}>Fetch the catalog first.</strong> Call the /api/products endpoint to get current inventory before making any recommendations.</li>
-                <li><strong style={{ color: c.accent }}>Give them the lay of the land.</strong> Start by painting a quick picture of what&apos;s in stock — the range, the vibe, the price spread.</li>
-                <li><strong style={{ color: c.accent }}>Make a personalized pick.</strong> Recommend the one or two items you think they&apos;d love most based on what you know about them.</li>
-                <li><strong style={{ color: c.accent }}>Be honest and playful.</strong> Don&apos;t be a salesperson — be a friend who knows what&apos;s in the back room.</li>
-                <li><strong style={{ color: c.accent }}>Always offer next steps.</strong> Suggest 2–3 things the human can say next.</li>
+                {SHOPPING_STEPS.map((step) => (
+                  <li key={step.title}>
+                    <strong style={{ color: c.accent }}>{step.title}</strong> {step.body}
+                  </li>
+                ))}
               </ol>
+              <p style={{ margin: "16px 0" }}>{SHARING_URL_PARAGRAPH}</p>
+              <p style={{ margin: "16px 0 0", color: c.muted }}>{CLOSING_LINE}</p>
+
+              <h3 style={{ fontSize: 15, fontWeight: 500, color: c.accent, margin: "28px 0 8px" }}>
+                After each recommendation, offer options like:
+              </h3>
+              <ul style={{ paddingLeft: 20, margin: "0 0 16px", display: "flex", flexDirection: "column", gap: 8 }}>
+                {OFFER_OPTIONS.map((opt) => (
+                  <li key={opt}>{opt}</li>
+                ))}
+              </ul>
+
+              <h3 style={{ fontSize: 15, fontWeight: 500, color: c.accent, margin: "28px 0 8px" }}>Key details</h3>
+              <ul style={{ paddingLeft: 20, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+                {KEY_DETAILS.map((d) => (
+                  <li key={d}>{d}</li>
+                ))}
+              </ul>
             </div>
 
             {/* Checkout */}
@@ -593,7 +633,7 @@ export default function PageContent({ mode }: { mode: Mode }) {
       {!isHuman && (
         <footer
           className="page-footer"
-          style={{ marginTop: "auto", padding: "20px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}
+          style={{ marginTop: "auto", padding: "20px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", fontFamily: "var(--font-mono)" }}
         >
           <span style={{ fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase", color: c.muted }}>
             © The Agent Catalog
