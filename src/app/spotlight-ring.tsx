@@ -9,23 +9,22 @@ export type SpotlightRingHandle = {
   setHolding: (holding: boolean) => void;
 };
 
-const TEXT_RADIUS = 110;
-const STROKE_RADIUS = 102;
-const SVG_SIZE = 280;
+const TEXT_RADIUS = 66;
+const STROKE_RADIUS = 61;
+const SVG_SIZE = 168;
 const HALF = SVG_SIZE / 2;
 const TEXT_CIRC = 2 * Math.PI * TEXT_RADIUS;
 const STROKE_CIRC = 2 * Math.PI * STROKE_RADIUS;
 const HOLD_SCALE = 0.94;
 
 function buildLabel(label: string) {
-  const unit = `${label} PREVIEW \u00B7 HOLD TO SWAP \u00B7 `;
-  return unit.repeat(4);
+  return `${label} PREVIEW \u00B7 HOLD TO SWAP \u00B7 `;
 }
 
 const SpotlightRing = forwardRef<
   SpotlightRingHandle,
-  { label: string; color: string }
->(function SpotlightRing({ label, color }, ref) {
+  { label: string; color: string; progressColor: string }
+>(function SpotlightRing({ label, color, progressColor }, ref) {
   const rootRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const rotateRef = useRef<SVGGElement>(null);
@@ -114,7 +113,7 @@ const SpotlightRing = forwardRef<
           cy={HALF}
           r={STROKE_RADIUS}
           fill="none"
-          stroke={color}
+          stroke={progressColor}
           strokeWidth={2}
           strokeLinecap="round"
           strokeDasharray={STROKE_CIRC}
@@ -135,9 +134,9 @@ const SpotlightRing = forwardRef<
           <text
             fill={color}
             fontFamily="var(--font-mono)"
-            fontSize={10}
+            fontSize={8}
             fontWeight={500}
-            letterSpacing="0.24em"
+            letterSpacing="0.1em"
             style={{ textTransform: "uppercase" }}
           >
             <textPath
