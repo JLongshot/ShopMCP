@@ -9,9 +9,9 @@ export type SpotlightRingHandle = {
   setHolding: (holding: boolean) => void;
 };
 
-const TEXT_RADIUS = 158;
-const STROKE_RADIUS = 150;
-const SVG_SIZE = 380;
+const TEXT_RADIUS = 132;
+const STROKE_RADIUS = 124;
+const SVG_SIZE = 320;
 const HALF = SVG_SIZE / 2;
 const TEXT_CIRC = 2 * Math.PI * TEXT_RADIUS;
 const STROKE_CIRC = 2 * Math.PI * STROKE_RADIUS;
