@@ -9,16 +9,17 @@ export type SpotlightRingHandle = {
   setHolding: (holding: boolean) => void;
 };
 
-const TEXT_RADIUS = 66;
-const STROKE_RADIUS = 61;
-const SVG_SIZE = 168;
+const TEXT_RADIUS = 82;
+const STROKE_RADIUS = 76;
+const SVG_SIZE = 210;
 const HALF = SVG_SIZE / 2;
 const TEXT_CIRC = 2 * Math.PI * TEXT_RADIUS;
 const STROKE_CIRC = 2 * Math.PI * STROKE_RADIUS;
-const HOLD_SCALE = 0.94;
+const HOLD_SCALE = 0.88;
 
 function buildLabel(label: string) {
-  return `${label} PREVIEW \u00B7 HOLD TO SWAP \u00B7 `;
+  const unit = `${label} PREVIEW \u00B7 HOLD TO SWAP \u00B7 `;
+  return unit.repeat(2);
 }
 
 const SpotlightRing = forwardRef<
@@ -134,7 +135,7 @@ const SpotlightRing = forwardRef<
           <text
             fill={color}
             fontFamily="var(--font-mono)"
-            fontSize={8}
+            fontSize={9}
             fontWeight={500}
             letterSpacing="0.1em"
             style={{ textTransform: "uppercase" }}

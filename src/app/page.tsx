@@ -35,9 +35,9 @@ const THEME = {
   agent: { bg: "#0a0a0a", fg: "#e0e0e0", muted: "#555", grid: "#1a1a1a" },
 } as const;
 
-const SPOTLIGHT_RADIUS = 58;
+const SPOTLIGHT_RADIUS = 72;
 const SPOTLIGHT_RADIUS_HOVER = 14;
-const SPOTLIGHT_HOLD_RADIUS = 53;
+const SPOTLIGHT_HOLD_RADIUS = 61;
 const HOLD_DURATION_MS = 1200;
 const RING_PROGRESS_COLOR: Record<Mode, string> = {
   human: "#5b5bd6",
