@@ -376,12 +376,15 @@ export default function PageContent({ mode }: { mode: Mode }) {
                 aria-hidden="true"
                 style={{
                   position: "absolute",
-                  inset: -3,
-                  borderRadius: 11,
+                  inset: hovered ? -28 : -14,
+                  borderRadius: 18,
                   background:
                     "conic-gradient(from var(--aurora-angle), #5b5bd6, #7c3aed, #06b6d4, #5b5bd6)",
                   animation: "aurora-rotate 4s linear infinite",
-                  filter: "blur(6px)",
+                  filter: hovered ? "blur(28px)" : "blur(18px)",
+                  opacity: hovered ? 1 : 0.85,
+                  transition:
+                    "inset 260ms ease, filter 260ms ease, opacity 260ms ease",
                   zIndex: -1,
                 }}
               />
