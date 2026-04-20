@@ -9,15 +9,17 @@ export type SpotlightRingHandle = {
   setHolding: (holding: boolean) => void;
 };
 
-const RING_RADIUS = 168;
-const STROKE_RADIUS = 174;
-const SVG_SIZE = 460;
+const TEXT_RADIUS = 158;
+const STROKE_RADIUS = 150;
+const SVG_SIZE = 380;
 const HALF = SVG_SIZE / 2;
+const TEXT_CIRC = 2 * Math.PI * TEXT_RADIUS;
 const STROKE_CIRC = 2 * Math.PI * STROKE_RADIUS;
+const HOLD_SCALE = 0.94;
 
 function buildLabel(label: string) {
-  const unit = `  ${label}  \u00B7  HOLD TO SWAP  \u00B7`;
-  return unit.repeat(3);
+  const unit = `${label} PREVIEW \u00B7 HOLD TO SWAP \u00B7 `;
+  return unit.repeat(4);
 }
 
 const SpotlightRing = forwardRef<
@@ -25,6 +27,7 @@ const SpotlightRing = forwardRef<
   { label: string; color: string }
 >(function SpotlightRing({ label, color }, ref) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const rotateRef = useRef<SVGGElement>(null);
   const progressRef = useRef<SVGCircleElement>(null);
   const visibleRef = useRef(false);
@@ -49,9 +52,10 @@ const SpotlightRing = forwardRef<
       el.style.opacity = clamped > 0 ? "1" : "0";
     },
     setHolding(h) {
-      const el = rotateRef.current;
-      if (!el) return;
-      el.style.animationPlayState = h ? "paused" : "running";
+      const rotate = rotateRef.current;
+      if (rotate) rotate.style.animationPlayState = h ? "paused" : "running";
+      const svg = svgRef.current;
+      if (svg) svg.style.transform = h ? `scale(${HOLD_SCALE})` : "scale(1)";
     },
   }));
 
@@ -78,15 +82,20 @@ const SpotlightRing = forwardRef<
         }
       `}</style>
       <svg
+        ref={svgRef}
         width={SVG_SIZE}
         height={SVG_SIZE}
         viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}
-        style={{ overflow: "visible" }}
+        style={{
+          overflow: "visible",
+          transformOrigin: "center",
+          transition: "transform 220ms cubic-bezier(0.4, 0, 0.2, 1)",
+        }}
       >
         <defs>
           <path
             id="spotlight-ring-path"
-            d={`M ${HALF} ${HALF - RING_RADIUS} a ${RING_RADIUS} ${RING_RADIUS} 0 1 1 -0.01 0`}
+            d={`M ${HALF} ${HALF - TEXT_RADIUS} a ${TEXT_RADIUS} ${TEXT_RADIUS} 0 1 1 -0.01 0`}
             fill="none"
           />
         </defs>
@@ -97,7 +106,7 @@ const SpotlightRing = forwardRef<
           fill="none"
           stroke={color}
           strokeWidth={1}
-          opacity={0.2}
+          opacity={0.22}
         />
         <circle
           ref={progressRef}
@@ -113,8 +122,7 @@ const SpotlightRing = forwardRef<
           opacity={0}
           transform={`rotate(-90 ${HALF} ${HALF})`}
           style={{
-            transition:
-              "stroke-dashoffset 80ms linear, opacity 140ms ease",
+            transition: "stroke-dashoffset 80ms linear, opacity 140ms ease",
           }}
         />
         <g
@@ -129,10 +137,15 @@ const SpotlightRing = forwardRef<
             fontFamily="var(--font-mono)"
             fontSize={10}
             fontWeight={500}
-            letterSpacing="0.28em"
+            letterSpacing="0.24em"
             style={{ textTransform: "uppercase" }}
           >
-            <textPath href="#spotlight-ring-path" startOffset="0">
+            <textPath
+              href="#spotlight-ring-path"
+              startOffset="0"
+              textLength={TEXT_CIRC}
+              lengthAdjust="spacing"
+            >
               {buildLabel(label)}
             </textPath>
           </text>

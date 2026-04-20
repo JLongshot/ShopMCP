@@ -37,6 +37,7 @@ const THEME = {
 
 const SPOTLIGHT_RADIUS = 144;
 const SPOTLIGHT_RADIUS_HOVER = 14;
+const SPOTLIGHT_HOLD_RADIUS = 134;
 const HOLD_DURATION_MS = 3000;
 
 function isClickable(el: Element | null): boolean {
@@ -96,6 +97,7 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
   const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const holdRafRef = useRef(0);
   const holdStartRef = useRef(0);
+  const isHoldingRef = useRef(false);
   const handleToggleRef = useRef<((m: Mode) => void) | null>(null);
 
   modeRef.current = mode;
@@ -204,9 +206,14 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
       cancelAnimationFrame(holdRafRef.current);
       holdRafRef.current = 0;
     }
+    const wasHolding = isHoldingRef.current;
+    isHoldingRef.current = false;
     ringRef.current?.setProgress(0);
     ringRef.current?.setHolding(false);
-  }, []);
+    if (wasHolding && !hoveringClickableRef.current) {
+      applyMask(SPOTLIGHT_RADIUS);
+    }
+  }, [applyMask]);
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
@@ -217,7 +224,9 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
         hoveringClickableRef.current = isClickable(e.target as Element);
         const r = hoveringClickableRef.current
           ? SPOTLIGHT_RADIUS_HOVER
-          : SPOTLIGHT_RADIUS;
+          : isHoldingRef.current
+            ? SPOTLIGHT_HOLD_RADIUS
+            : SPOTLIGHT_RADIUS;
         applyMask(r);
         ringRef.current?.setVisible(
           !hoveringClickableRef.current && !wipeActiveRef.current,
@@ -264,7 +273,9 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
       if (isClickable(e.target as Element)) return;
       if (mouseClientRef.current.x === -9999) return;
       holdStartRef.current = performance.now();
+      isHoldingRef.current = true;
       ringRef.current?.setHolding(true);
+      applyMask(SPOTLIGHT_HOLD_RADIUS);
       holdRafRef.current = requestAnimationFrame(tickHoldProgress);
       holdTimerRef.current = setTimeout(() => {
         holdTimerRef.current = null;
@@ -273,7 +284,7 @@ function DesktopShell({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
         cancelHold();
       }, HOLD_DURATION_MS);
     },
-    [tickHoldProgress, cancelHold],
+    [applyMask, tickHoldProgress, cancelHold],
   );
 
   const handleMouseUp = useCallback(() => {
